@@ -15,7 +15,7 @@ import android.widget.RelativeLayout;
 import android.widget.Scroller;
 import android.widget.TextView;
 
-import com.im.openimlib.R;
+import com.im.openimlib.Utils.MResource;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -72,6 +72,26 @@ public class XListView extends ListView implements OnScrollListener {
 		initWithContext(context);
 	}
 
+	/**
+	 * 通过控件名称获取控件id
+	 *
+	 * @param name
+	 * @return
+	 */
+	private int getIdByName(String name) {
+		return MResource.getIdByName(getContext(), "id", name);
+	}
+
+	/**
+	 * 通过layout名称获取layout的id
+	 *
+	 * @param layout
+	 * @return
+	 */
+	private int getLayoutByName(String layout) {
+		return MResource.getIdByName(getContext(), "layout", layout);
+	}
+
 	private void initWithContext(Context context) {
 		mScroller = new Scroller(context, new DecelerateInterpolator());
 		super.setOnScrollListener(this);
@@ -79,9 +99,9 @@ public class XListView extends ListView implements OnScrollListener {
 		// 初始化头部View
 		mHeaderView = new XListViewHeader(context);
 		mHeaderViewContent = (RelativeLayout) mHeaderView
-				.findViewById(R.id.xlistview_header_content);
+				.findViewById(getIdByName("xlistview_header_content"));
 		mHeaderTimeView = (TextView) mHeaderView
-				.findViewById(R.id.xlistview_header_time);
+				.findViewById(getIdByName("xlistview_header_time"));
 		addHeaderView(mHeaderView);// 把头部这个视图添加进去
 
 		// 初始化底部的View
@@ -102,7 +122,7 @@ public class XListView extends ListView implements OnScrollListener {
 	@Override
 	public void setAdapter(ListAdapter adapter) {
 		// 确定XListViewFooter是最后底部的View, 并且只有一次
-		if (mIsFooterReady == false) {
+		if (!mIsFooterReady) {
 			mIsFooterReady = true;
 			addFooterView(mFooterView);
 		}
@@ -151,7 +171,7 @@ public class XListView extends ListView implements OnScrollListener {
 	 * 停止刷新, 重置头视图.
 	 */
 	public void stopRefresh() {
-		if (mPullRefreshing == true) {
+		if (mPullRefreshing) {
 			mPullRefreshing = false;
 			resetHeaderHeight();
 		}
@@ -161,7 +181,7 @@ public class XListView extends ListView implements OnScrollListener {
 	 * stop load more, reset footer view.
 	 */
 	public void stopLoadMore() {
-		if (mPullLoading == true) {
+		if (mPullLoading) {
 			mPullLoading = false;
 			mFooterView.setState(XListViewFooter.STATE_NORMAL);
 		}
@@ -357,15 +377,15 @@ public class XListView extends ListView implements OnScrollListener {
 	 * 你可以监听到列表视图，OnScrollListener 或者这个. 他将会被调用 , 当头部或底部触发的时候
 	 */
 	public interface OnXScrollListener extends OnScrollListener {
-		public void onXScrolling(View view);
+		void onXScrolling(View view);
 	}
 
 	/**
 	 * 实现这个接口来刷新/负载更多的事件
 	 */
 	public interface IXListViewListener {
-		public void onRefresh();
+		void onRefresh();
 
-		public void onLoadMore();
+		void onLoadMore();
 	}
 }

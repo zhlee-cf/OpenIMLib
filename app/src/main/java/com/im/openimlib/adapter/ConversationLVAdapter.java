@@ -9,7 +9,7 @@ import android.widget.BaseAdapter;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.im.openimlib.R;
+import com.im.openimlib.Utils.MResource;
 import com.im.openimlib.Utils.MyBitmapUtils;
 import com.im.openimlib.bean.MessageBean;
 import com.im.openimlib.dao.OpenIMDao;
@@ -18,12 +18,12 @@ import com.im.openimlib.view.CircularImage;
 import java.util.List;
 
 
-public class NewsLVAdapter extends BaseAdapter {
+public class ConversationLVAdapter extends BaseAdapter {
 
     private final MyBitmapUtils bitmapUtils;
     private final OpenIMDao openIMDao;
 
-    public NewsLVAdapter(Context ctx, List<MessageBean> data, int rightWidth) {
+    public ConversationLVAdapter(Context ctx, List<MessageBean> data, int rightWidth) {
         this.ctx = ctx;
         this.data = data;
         openIMDao = OpenIMDao.getInstance(ctx);
@@ -47,6 +47,42 @@ public class NewsLVAdapter extends BaseAdapter {
         TextView tv_unread;
     }
 
+    /**
+     * 通过控件名称获取控件id
+     * @param name
+     * @return
+     */
+    private int getIdByName(String name) {
+        return MResource.getIdByName(ctx, "id", name);
+    }
+
+    /**
+     * 通过layout名称获取layout的id
+     * @param layout
+     * @return
+     */
+    private int getLayoutByName(String layout) {
+        return MResource.getIdByName(ctx, "layout", layout);
+    }
+
+    /**
+     * 通过图片名称找到图片id
+     * @param mipmap
+     * @return
+     */
+    private int getMipmapByName(String mipmap){
+        return MResource.getIdByName(ctx,"mipmap",mipmap);
+    }
+
+    /**
+     * 通过drawable名称找到drawable
+     * @param drawable
+     * @return
+     */
+    private int getDrawableByName(String drawable){
+        return MResource.getIdByName(ctx,"drawable",drawable);
+    }
+
     @Override
     public int getCount() {
         return data.size();
@@ -68,14 +104,14 @@ public class NewsLVAdapter extends BaseAdapter {
         ViewHolder vh;
         if (convertView == null) {
             vh = new ViewHolder();
-            view = View.inflate(ctx, R.layout.list_item_conversation, null);
-            vh.item_left = (RelativeLayout) view.findViewById(R.id.item_left);
-            vh.iv_icon = (CircularImage) view.findViewById(R.id.iv_icon);
+            view = View.inflate(ctx, getLayoutByName("list_item_conversation"), null);
+            vh.item_left = (RelativeLayout) view.findViewById(getIdByName("item_left"));
+            vh.iv_icon = (CircularImage) view.findViewById(getIdByName("iv_icon"));
             vh.iv_icon.setTag(position);
-            vh.tv_title = (TextView) view.findViewById(R.id.tv_title);
-            vh.tv_msg = (TextView) view.findViewById(R.id.tv_msg);
-            vh.tv_time = (TextView) view.findViewById(R.id.tv_time);
-            vh.tv_unread = (TextView) view.findViewById(R.id.tv_unread_num);
+            vh.tv_title = (TextView) view.findViewById(getIdByName("tv_title"));
+            vh.tv_msg = (TextView) view.findViewById(getIdByName("tv_msg"));
+            vh.tv_time = (TextView) view.findViewById(getIdByName("tv_time"));
+            vh.tv_unread = (TextView) view.findViewById(getIdByName("tv_unread_num"));
             view.setTag(vh);
         } else {
             view = convertView;
@@ -96,7 +132,7 @@ public class NewsLVAdapter extends BaseAdapter {
         if (msgAvatar != null){
             bitmapUtils.display(vh.iv_icon,msgAvatar);
         } else {
-            vh.iv_icon.setImageResource(R.mipmap.ic_launcher);
+            vh.iv_icon.setImageResource(getMipmapByName("ic_launcher"));
         }
         if ("-1".equals(msgReceipt)) {
             vh.tv_msg.setText("【发送失败】");

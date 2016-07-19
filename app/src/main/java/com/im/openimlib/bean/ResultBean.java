@@ -1,7 +1,7 @@
 package com.im.openimlib.bean;
 
 /**
- * Created by Administrator on 2016/4/19.
+ * Created by lzh12 on 2016/4/19.
  */
 public class ResultBean extends ProtocalObj {
 

@@ -2,11 +2,10 @@
 <litepal>
     <dbname value="db_OpenIMLib"/>
 
-    <version value="1"/>
+    <version value="2"/>
 
     <list>
         <mapping class="com.im.openimlib.bean.MessageBean"/>
-        <mapping class="com.im.openimlib.bean.SubBean"/>
         <mapping class="com.im.openimlib.bean.VCardBean"/>
     </list>
 </litepal>

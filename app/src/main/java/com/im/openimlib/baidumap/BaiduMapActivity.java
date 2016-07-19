@@ -54,14 +54,13 @@ import com.baidu.mapapi.search.poi.PoiNearbySearchOption;
 import com.baidu.mapapi.search.poi.PoiResult;
 import com.baidu.mapapi.search.poi.PoiSearch;
 import com.baidu.mapapi.utils.CoordinateConverter;
-import com.im.openimlib.R;
+import com.im.openimlib.Utils.MResource;
 import com.im.openimlib.Utils.MyFileUtils;
 import com.im.openimlib.Utils.MyNetUtils;
 import com.im.openimlib.Utils.MyUtils;
 import com.im.openimlib.Utils.ThreadUtil;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -114,19 +113,60 @@ public class BaiduMapActivity extends Activity implements View.OnClickListener {
     private BroadcastReceiver netReceiver;
     private String locationResult;
 
+    /**
+     * 通过控件名称获取控件id
+     *
+     * @param name
+     * @return
+     */
+    private int getIdByName(String name) {
+        return MResource.getIdByName(act, "id", name);
+    }
+
+    /**
+     * 通过layout名称获取layout的id
+     *
+     * @param layout
+     * @return
+     */
+    private int getLayoutByName(String layout) {
+        return MResource.getIdByName(act, "layout", layout);
+    }
+
+    /**
+     * 通过图片名称找到图片id
+     *
+     * @param mipmap
+     * @return
+     */
+    private int getMipmapByName(String mipmap) {
+        return MResource.getIdByName(act, "mipmap", mipmap);
+    }
+
+    /**
+     * 通过drawable名称找到drawable
+     *
+     * @param drawable
+     * @return
+     */
+    private int getDrawableByName(String drawable) {
+        return MResource.getIdByName(act, "drawable", drawable);
+    }
+
+
     @Override
     public void onClick(View v) {
         int i = v.getId();
-        if (i == R.id.ib_back) {
+        if (i == getIdByName("ib_back")) {
             finish();
 
-        } else if (i == R.id.bmap_local_myself) {
+        } else if (i == getIdByName("bmap_local_myself")) {
             if (currentLL != originalLL) {
                 changeState = true;
                 mBaiduMap.animateMapStatus(myselfU);
             }
 
-        } else if (i == R.id.btn_send) {
+        } else if (i == getIdByName("btn_send")) {
             pd = new ProgressDialog(act);
             pd.setMessage("正在发送位置...");
             pd.show();
@@ -171,8 +211,6 @@ public class BaiduMapActivity extends Activity implements View.OnClickListener {
                                 }
                             });
                         }
-                    } catch (FileNotFoundException e) {
-                        e.printStackTrace();
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
@@ -206,7 +244,7 @@ public class BaiduMapActivity extends Activity implements View.OnClickListener {
         super.onCreate(savedInstanceState);
         SDKInitializer.initialize(getApplicationContext());
         act = this;
-        setContentView(R.layout.activity_baidumap);
+        setContentView(getLayoutByName("activity_baidumap"));
         if (MyNetUtils.isNetworkConnected(act)) {
             init();
         } else {
@@ -216,20 +254,20 @@ public class BaiduMapActivity extends Activity implements View.OnClickListener {
     }
 
     private void init() {
-        original = (ImageButton) findViewById(R.id.bmap_local_myself);
-        listView = (ListView) findViewById(R.id.bmap_listview);
-        mMapView = (MapView) findViewById(R.id.bmap_View);
+        original = (ImageButton) findViewById(getIdByName("bmap_local_myself"));
+        listView = (ListView) findViewById(getIdByName("bmap_listview"));
+        mMapView = (MapView) findViewById(getIdByName("bmap_View"));
         mSearch = GeoCoder.newInstance();
-        send = (Button) findViewById(R.id.btn_send);
-        back = (ImageButton) findViewById(R.id.ib_back);
+        send = (Button) findViewById(getIdByName("btn_send"));
+        back = (ImageButton) findViewById(getIdByName("ib_back"));
         back.setOnClickListener(this);
-        refreshText = (TextView) findViewById(R.id.bmap_refresh);
-        ImageView centerIcon = (ImageView) findViewById(R.id.bmap_center_icon);
+        refreshText = (TextView) findViewById(getIdByName("bmap_refresh"));
+        ImageView centerIcon = (ImageView) findViewById(getIdByName("bmap_center_icon"));
 
         isFirstLoad = true;
 
-        datas = new ArrayList<PoiInfo>();
-        adatper = new BaiduMapAdapter(BaiduMapActivity.this, datas, R.layout.adapter_baidumap_item);
+        datas = new ArrayList<>();
+        adatper = new BaiduMapAdapter(BaiduMapActivity.this, datas, getLayoutByName("adapter_baidumap_item"));
         listView.setAdapter(adatper);
         Intent intent = getIntent();
         double latitude = intent.getDoubleExtra(LATITUDE, 0);
@@ -437,7 +475,7 @@ public class BaiduMapActivity extends Activity implements View.OnClickListener {
     private void showMap(double latitude, double longitude, String address) {
         send.setVisibility(View.GONE);
         LatLng llA = new LatLng(latitude, longitude);
-        OverlayOptions ooA = new MarkerOptions().position(llA).icon(BitmapDescriptorFactory.fromResource(R.mipmap.icon_yourself_lication)).zIndex(4).draggable(true);
+        OverlayOptions ooA = new MarkerOptions().position(llA).icon(BitmapDescriptorFactory.fromResource(getMipmapByName("icon_yourself_lication"))).zIndex(4).draggable(true);
         mBaiduMap.addOverlay(ooA);
         MapStatusUpdate u = MapStatusUpdateFactory.newLatLngZoom(llA, 17.0f);
         mBaiduMap.animateMapStatus(u);
@@ -531,7 +569,7 @@ public class BaiduMapActivity extends Activity implements View.OnClickListener {
             converter.coord(ll);// 设置源坐标数据
             converter.from(CoordinateConverter.CoordType.COMMON);// 设置源坐标类型
             LatLng convertLatLng = converter.convert();
-            OverlayOptions myselfOOA = new MarkerOptions().position(convertLatLng).icon(BitmapDescriptorFactory.fromResource(R.mipmap.icon_yourself_lication)).zIndex(4).draggable(true);
+            OverlayOptions myselfOOA = new MarkerOptions().position(convertLatLng).icon(BitmapDescriptorFactory.fromResource(getMipmapByName("icon_yourself_lication"))).zIndex(4).draggable(true);
             mBaiduMap.addOverlay(myselfOOA);
             myselfU = MapStatusUpdateFactory.newLatLngZoom(convertLatLng, 17.0f);
             mBaiduMap.animateMapStatus(myselfU);
@@ -552,7 +590,7 @@ public class BaiduMapActivity extends Activity implements View.OnClickListener {
                 View view1 = listView.getChildAt(preCheckedPosition - listView.getFirstVisiblePosition());
                 ImageView checked;
                 if (view1 != null) {
-                    checked = (ImageView) view1.findViewById(R.id.adapter_baidumap_location_checked);
+                    checked = (ImageView) view1.findViewById(getIdByName("adapter_baidumap_location_checked"));
                     checked.setVisibility(View.GONE);
                 }
                 preCheckedPosition = position;
@@ -562,7 +600,7 @@ public class BaiduMapActivity extends Activity implements View.OnClickListener {
                 MapStatusUpdate u = MapStatusUpdateFactory.newLatLngZoom(llA, 17.0f);
                 mBaiduMap.animateMapStatus(u);
                 lastInfo = info;
-                checked = (ImageView) view.findViewById(R.id.adapter_baidumap_location_checked);
+                checked = (ImageView) view.findViewById(getIdByName("adapter_baidumap_location_checked"));
                 checked.setVisibility(View.VISIBLE);
             }
 

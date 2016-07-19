@@ -4,17 +4,13 @@ import android.content.Context;
 import android.database.Cursor;
 
 import com.im.openimlib.Utils.MyConstance;
-import com.im.openimlib.Utils.MyLog;
-import com.im.openimlib.app.MyApp;
 import com.im.openimlib.bean.MessageBean;
-import com.im.openimlib.bean.SubBean;
 import com.im.openimlib.bean.VCardBean;
 
 import org.litepal.crud.DataSupport;
 import org.litepal.tablemanager.Connector;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
@@ -48,30 +44,6 @@ public class OpenIMDao {
     /**====================================== 操作VCard ==========================================*/
 
     /**
-     * 保存成组的VCard信息
-     *
-     * @param list 成组的VCardBean
-     */
-    public void saveAllVCard(Collection<VCardBean> list) {
-        if (list != null) {
-            deleteAllVCard();
-            DataSupport.saveAll(list);
-            ctx.getContentResolver().notifyChange(MyConstance.URI_VCARD, null);
-        }
-    }
-
-    /**
-     * 保存一条VCard信息到数据库
-     *
-     * @param vCardBean
-     */
-    public synchronized void saveSingleVCard(VCardBean vCardBean) {
-        vCardBean.save();
-        ctx.getContentResolver().notifyChange(MyConstance.URI_VCARD, null);
-        MyLog.showLog("保存铭牌");
-    }
-
-    /**
      * 更新单个的VCard信息
      *
      * @param vCardBean
@@ -86,27 +58,6 @@ public class OpenIMDao {
     }
 
     /**
-     * 删除指定的一条VCard
-     *
-     * @param userJid
-     */
-    public synchronized void deleteSingleVCard(String userJid) {
-        VCardBean singleVCard = findSingleVCard(userJid);
-        if (singleVCard != null) {
-            singleVCard.delete();
-            ctx.getContentResolver().notifyChange(MyConstance.URI_VCARD, null);
-            MyLog.showLog("删除铭牌");
-        }
-    }
-
-    /**
-     * 删除VCard表中所有的数据
-     */
-    public void deleteAllVCard() {
-        DataSupport.deleteAll(VCardBean.class);
-    }
-
-    /**
      * 根据userJid查询相应的VCard信息
      *
      * @param userJid
@@ -118,15 +69,6 @@ public class OpenIMDao {
             return vCardBeans.get(0);
         }
         return null;
-    }
-
-    /**
-     * 查询所有的VCard信息  不包括自己
-     *
-     * @return
-     */
-    public List<VCardBean> findAllVCard() {
-        return DataSupport.where(DBColumns.JID + " != ?", MyApp.username + "@" + MyConstance.SERVICE_HOST).find(VCardBean.class);
     }
 
     /**====================================== 操作聊天信息 ==========================================*/
@@ -236,7 +178,7 @@ public class OpenIMDao {
      */
     public List<MessageBean> queryConversation(String owner) {
         List<MessageBean> list = new ArrayList<>();
-        if (owner != null){
+        if (owner != null) {
             Cursor cursor = DataSupport.findBySQL("select distinct * from " + DBColumns.TABLE_MSG + " where " + DBColumns.OWNER + " = ? group by " + DBColumns.MARK + " order by " + DBColumns.ID + " desc", owner);
             while (cursor.moveToNext()) {
                 MessageBean bean = new MessageBean();
@@ -253,20 +195,6 @@ public class OpenIMDao {
             }
         }
         return list;
-    }
-
-    /**
-     * 修改与指定好友的聊天消息存储的用户头像
-     *
-     * @param mark
-     * @param avatarUrl
-     */
-    public void updateMessageAvatar(String mark, String avatarUrl) {
-        MessageBean messageBean = new MessageBean();
-        messageBean.setAvatar(avatarUrl);
-        messageBean.updateAll(DBColumns.MARK + " = ?", mark);
-        // 发出通知，群组数据库发生变化了
-        ctx.getContentResolver().notifyChange(MyConstance.URI_MSG, null);
     }
 
     /**
@@ -318,111 +246,5 @@ public class OpenIMDao {
             return messageBeans.get(0).getReceipt();
         }
         return null;
-    }
-
-
-    /**====================================== 操作好友申请 ==========================================*/
-
-    /**
-     * 保存一条好友订阅信息到数据库
-     *
-     * @param subBean
-     */
-    public void saveSingleSub(SubBean subBean) {
-        SubBean singleSub = findSingleSub(subBean.getMark());
-        if (singleSub != null) {
-            singleSub.delete();
-        }
-        subBean.save();
-        ctx.getContentResolver().notifyChange(MyConstance.URI_SUB, null);
-    }
-
-    /**
-     * 根据mark查询sub信息
-     *
-     * @param mark
-     * @return
-     */
-    public SubBean findSingleSub(String mark) {
-        List<SubBean> subBeans = DataSupport.where(DBColumns.MARK + " = ?", mark).find(SubBean.class);
-        if (subBeans != null && subBeans.size() > 0) {
-            return subBeans.get(0);
-        }
-        return null;
-    }
-
-    /**
-     * 根据mark删除指定的sub信息
-     *
-     * @param mark
-     */
-    public void deleteSingleSub(String mark) {
-        DataSupport.deleteAll(SubBean.class, DBColumns.MARK + " = ?", mark);
-        ctx.getContentResolver().notifyChange(MyConstance.URI_SUB, null);
-    }
-
-    /**
-     * 删除所有的好友申请 清空表
-     */
-    public void deleteAllSub() {
-        DataSupport.deleteAll(SubBean.class);
-        ctx.getContentResolver().notifyChange(MyConstance.URI_SUB, null);
-    }
-
-    /**
-     * 删除指定用户对应的所有的订阅申请
-     *
-     * @param owner
-     */
-    public void deleteSubByOwner(String owner) {
-        DataSupport.deleteAll(SubBean.class, DBColumns.OWNER + " = ?", owner);
-        ctx.getContentResolver().notifyChange(MyConstance.URI_SUB, null);
-    }
-
-    /**
-     * 根据mark修改好友的订阅状态
-     *
-     * @param mark
-     * @param subState 0 收到请求  1 同意对方请求 2 发出请求  3 对方同意请求
-     */
-    public void updateSubByMark(String mark, String subState) {
-        SubBean subBean = new SubBean();
-        subBean.setState(subState);
-        subBean.updateAll(DBColumns.MARK + " = ?", mark);
-        ctx.getContentResolver().notifyChange(MyConstance.URI_SUB, null);
-    }
-
-    /**
-     * 倒序查询最新的指定条数的好友订阅信息
-     *
-     * @param owner
-     * @param offset
-     * @param limit
-     * @return
-     */
-    public List<SubBean> findSubByOwner(String owner, int limit, int offset) {
-        List<SubBean> subBeans = DataSupport.where(DBColumns.OWNER + " = ?", owner).order(DBColumns.ID + " desc").limit(limit).offset(offset).find(SubBean.class);
-        if (subBeans != null) {
-            Collections.reverse(subBeans);
-        }
-        return subBeans;
-    }
-
-    /**
-     * 查找owner的最近的三条好友申请
-     *
-     * @param owner
-     * @param limit
-     * @return
-     */
-    public List<String> findSubByOwner4Avatar(String owner, int limit) {
-        ArrayList<String> avatars = new ArrayList<String>();
-        List<SubBean> subBeans = DataSupport.where(DBColumns.OWNER + " = ? and " + DBColumns.STATE + " = ?", owner, "0").order(DBColumns.ID + " desc").limit(limit).find(SubBean.class);
-        if (subBeans != null && subBeans.size() > 0) {
-            for (SubBean bean : subBeans) {
-                avatars.add(bean.getAvatar());
-            }
-        }
-        return avatars;
     }
 }

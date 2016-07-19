@@ -27,7 +27,6 @@ public class BaseActivity extends FragmentActivity {
     private boolean isFocus = true;
     private BroadcastReceiver newConnectReceiver;
     private XMPPTCPConnection connection;
-    private BroadcastReceiver mHomeKeyDownReceiver;
     private PowerManager pm;
 
     @Override
@@ -48,8 +47,6 @@ public class BaseActivity extends FragmentActivity {
         };
         IntentFilter filter = new IntentFilter(MyConstance.NEW_CONNECTION_ACTION);
         registerReceiver(newConnectReceiver, filter);
-
-//        registerHomeKeyDownListener();
     }
 
     /**
@@ -70,7 +67,6 @@ public class BaseActivity extends FragmentActivity {
                     MyLog.showLog("应用可见_socket_closed::" + connection.isSocketClosed());
                 }
                 if (connection == null || !connection.isConnected() || !connection.isAuthenticated()) {
-//                    MyUtils.showToast(act, "应用已断开链接" + connection.isAuthenticated());
                     if (MyNetUtils.isNetworkConnected(act) && isFocus) {
                         sendBroadcast(new Intent(MyConstance.ACT_ONRESUME_ACTION));
                     }
@@ -112,9 +108,6 @@ public class BaseActivity extends FragmentActivity {
         if (newConnectReceiver != null) {
             unregisterReceiver(newConnectReceiver);
         }
-        if (mHomeKeyDownReceiver != null) {
-            unregisterReceiver(mHomeKeyDownReceiver);
-        }
         super.onDestroy();
     }
 
@@ -153,25 +146,6 @@ public class BaseActivity extends FragmentActivity {
             }
         }
         return false;
-    }
-
-    /**
-     * 监听的是 系统发出的取消Dialog的广播  反正点击home键会发出 当应用在前台时，锁屏键也会发出
-     * 勉强可以用来处理home键点击事件
-     */
-    private void registerHomeKeyDownListener() {
-
-        mHomeKeyDownReceiver = new BroadcastReceiver() {
-            @Override
-            public void onReceive(Context context, Intent intent) {
-                MyLog.showLog("收到广播");
-                if (pm.isScreenOn()) {
-                    finish();
-                }
-            }
-        };
-        registerReceiver(mHomeKeyDownReceiver, new IntentFilter(
-                Intent.ACTION_CLOSE_SYSTEM_DIALOGS));
     }
 
     /**

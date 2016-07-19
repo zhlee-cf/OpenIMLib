@@ -9,7 +9,7 @@ import android.content.SharedPreferences;
 import android.os.PowerManager;
 import android.text.TextUtils;
 
-import com.im.openimlib.R;
+import com.im.openimlib.Utils.MResource;
 import com.im.openimlib.Utils.MyBase64Utils;
 import com.im.openimlib.Utils.MyConstance;
 import com.im.openimlib.Utils.MyLog;
@@ -50,6 +50,15 @@ public class MyChatMessageListener implements ChatMessageListener {
         openIMDao = OpenIMDao.getInstance(ctx);
         sp = ctx.getSharedPreferences(MyConstance.SP_NAME, 0);
         pm = (PowerManager) ctx.getSystemService(Context.POWER_SERVICE);
+    }
+
+    /**
+     * 通过图片名称找到图片id
+     * @param mipmap
+     * @return
+     */
+    private int getMipmapByName(String mipmap){
+        return MResource.getIdByName(ctx, "mipmap", mipmap);
     }
 
     @Override
@@ -170,7 +179,7 @@ public class MyChatMessageListener implements ChatMessageListener {
                 .setContentText(messageBody)
                 .setContentIntent(contentIntent)
                 .setTicker(tickerText)
-                .setSmallIcon(R.mipmap.ic_launcher)
+                .setSmallIcon(getMipmapByName("ic_launcher"))
                 .build();
         // 设置默认声音
         notification.defaults |= Notification.DEFAULT_SOUND;

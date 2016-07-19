@@ -18,10 +18,6 @@ public class MyApp extends LitePalApplication {
      */
     public static boolean isActive;
     /**
-     * 登录后 存储用户昵称
-     */
-    public static String nickName ;
-    /**
      * 登录后存储用户名
      */
     public static String username;
@@ -34,7 +30,7 @@ public class MyApp extends LitePalApplication {
      * 头像地址
      */
     public static String avatarUrl;
-    private static ArrayList<Activity> activities = new ArrayList<Activity>();;
+    private static ArrayList<Activity> activities = new ArrayList<>();
 
     @Override
     public void onCreate() {

@@ -44,7 +44,7 @@ import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 
-import com.im.openimlib.R;
+import com.im.openimlib.Utils.MResource;
 import com.im.openimlib.Utils.MyAnimationUtils;
 import com.im.openimlib.Utils.MyAudioRecordUtils;
 import com.im.openimlib.Utils.MyBase64Utils;
@@ -66,11 +66,11 @@ import com.im.openimlib.bean.ReceiveBean;
 import com.im.openimlib.dao.OpenIMDao;
 import com.im.openimlib.view.MyDialog;
 import com.im.openimlib.view.XListView;
+import com.im.openimlib.view.XListView.IXListViewListener;
 import com.rockerhieu.emojicon.EmojiconEditText;
 import com.rockerhieu.emojicon.EmojiconGridFragment;
 import com.rockerhieu.emojicon.EmojiconsFragment;
 import com.rockerhieu.emojicon.emoji.Emojicon;
-import com.im.openimlib.view.XListView.IXListViewListener;
 
 import org.jivesoftware.smack.ConnectionListener;
 import org.jivesoftware.smack.SmackException.NotConnectedException;
@@ -125,7 +125,7 @@ public class ChatActivity extends BaseActivity implements OnClickListener, OnIte
     private static final int BAIDU_MAP = 1003;
     private String username;
     private String[] names = new String[]{"拍照", "图片", "位置"};
-    private int[] iconIds = new int[]{R.mipmap.options_camera, R.mipmap.options_picture, R.mipmap.options_location};
+    private int[] iconIds;
     private MyGridViewAdapter myGridViewAdapter;
     private boolean isShort;
     private static final int POLL_INTERVAL = 300;
@@ -151,10 +151,9 @@ public class ChatActivity extends BaseActivity implements OnClickListener, OnIte
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_chat);
-
+        setContentView(getLayoutByName("activity_chat"));
+        // 初始化控件
         initView();
-
         // 初始化
         init();
         // 注册监听
@@ -167,30 +166,56 @@ public class ChatActivity extends BaseActivity implements OnClickListener, OnIte
     }
 
     private void initView() {
-        tvTitle = (TextView) findViewById(R.id.tv_title);
-        etMsg = (EmojiconEditText) findViewById(R.id.et_msg);
-        tvSend = (TextView) findViewById(R.id.tv_send);
-        mListView = (XListView) findViewById(R.id.lv_messages);
-        ivAdd = (ImageView) findViewById(R.id.iv_add);
-        ivSay = (ImageView) findViewById(R.id.iv_say);
-        ivKeyboard = (ImageView) findViewById(R.id.iv_keyboard);
-        tvSay = (TextView) findViewById(R.id.tv_say);
-        ibBack = (ImageButton) findViewById(R.id.ib_back);
-        tvBack = (TextView) findViewById(R.id.tv_back);
-        ivMinus = (ImageView) findViewById(R.id.iv_minus);
-        gvMore = (GridView) findViewById(R.id.gv_more);
-        imageFace = (ImageView) findViewById(R.id.image_face);
+        tvTitle = (TextView) findViewById(getIdByName("tv_title"));
+        etMsg = (EmojiconEditText) findViewById(getIdByName("et_msg"));
+        tvSend = (TextView) findViewById(getIdByName("tv_send"));
+        mListView = (XListView) findViewById(getIdByName("lv_messages"));
+        ivAdd = (ImageView) findViewById(getIdByName("iv_add"));
+        ivSay = (ImageView) findViewById(getIdByName("iv_say"));
+        ivKeyboard = (ImageView) findViewById(getIdByName("iv_keyboard"));
+        tvSay = (TextView) findViewById(getIdByName("tv_say"));
+        ibBack = (ImageButton) findViewById(getIdByName("ib_back"));
+        tvBack = (TextView) findViewById(getIdByName("tv_back"));
+        ivMinus = (ImageView) findViewById(getIdByName("iv_minus"));
+        gvMore = (GridView) findViewById(getIdByName("gv_more"));
+        imageFace = (ImageView) findViewById(getIdByName("image_face"));
 
         // 下面的都是 录音时会弹的那个悬浮窗的控件(其实也不是悬浮窗，是布局里的以前gone掉了，显示出来)
-        llRecordWindow = (LinearLayout) findViewById(R.id.ll_record_window);
-        volume = (ImageView) this.findViewById(R.id.volume);
-        img1 = (ImageView) this.findViewById(R.id.img1);
-        delRe = (LinearLayout) this.findViewById(R.id.del_re);
-        voiceRcdHintRcding = (LinearLayout) findViewById(R.id.voice_rcd_hint_rcding);
-        voiceRcdHintLoading = (LinearLayout) findViewById(R.id.voice_rcd_hint_loading);
-        voiceRcdHintTooshort = (LinearLayout) findViewById(R.id.voice_rcd_hint_tooshort);
+        llRecordWindow = (LinearLayout) findViewById(getIdByName("ll_record_window"));
+        volume = (ImageView) this.findViewById(getIdByName("volume"));
+        img1 = (ImageView) this.findViewById(getIdByName("img1"));
+        delRe = (LinearLayout) this.findViewById(getIdByName("del_re"));
+        voiceRcdHintRcding = (LinearLayout) findViewById(getIdByName("voice_rcd_hint_rcding"));
+        voiceRcdHintLoading = (LinearLayout) findViewById(getIdByName("voice_rcd_hint_loading"));
+        voiceRcdHintTooshort = (LinearLayout) findViewById(getIdByName("voice_rcd_hint_tooshort"));
     }
 
+    /**
+     * 通过控件名称获取控件id
+     * @param name
+     * @return
+     */
+    private int getIdByName(String name) {
+        return MResource.getIdByName(getApplicationContext(), "id", name);
+    }
+
+    /**
+     * 通过layout名称获取layout的id
+     * @param layout
+     * @return
+     */
+    private int getLayoutByName(String layout) {
+        return MResource.getIdByName(getApplicationContext(), "layout", layout);
+    }
+
+    /**
+     * 通过图片名称找到图片id
+     * @param mipmap
+     * @return
+     */
+    private int getMipmapByName(String mipmap){
+        return MResource.getIdByName(getApplicationContext(),"mipmap",mipmap);
+    }
     /**
      * 查询数据库 初始化聊天数据 收到的消息先存到数据 发出的消息发出后存到数据库 显示界面直接跟数据库关联 数据库改变 listview改变
      */
@@ -259,7 +284,7 @@ public class ChatActivity extends BaseActivity implements OnClickListener, OnIte
     public void onClick(View view) {
         FragmentTransaction beginTransaction = getSupportFragmentManager().beginTransaction();
         int i = view.getId();
-        if (i == R.id.et_msg) {
+        if (i == getIdByName("et_msg")) {
             if (f_emojicons.isVisible()) {
                 beginTransaction.hide(f_emojicons);
             }
@@ -269,7 +294,7 @@ public class ChatActivity extends BaseActivity implements OnClickListener, OnIte
             // 点击输入框，弹出软键盘，listview展示最后一条消息
             mListView.setSelection(adapter.getCount() - 1);
 
-        } else if (i == R.id.tv_send) {
+        } else if (i == getIdByName("tv_send")) {
             MyLog.showLog("发送_0::" + SystemClock.currentThreadTimeMillis());
             String msgBody = etMsg.getText().toString().trim();
             etMsg.setText("");
@@ -297,7 +322,7 @@ public class ChatActivity extends BaseActivity implements OnClickListener, OnIte
                 e.printStackTrace();
             }
 
-        } else if (i == R.id.iv_add) {
+        } else if (i == getIdByName("iv_add")) {
             if (gvMore.isShown()) {
                 gvMore.setVisibility(View.GONE);
             } else {
@@ -308,7 +333,7 @@ public class ChatActivity extends BaseActivity implements OnClickListener, OnIte
             }
             hideSoftInputView();
 
-        } else if (i == R.id.image_face) {// 隐藏软键盘
+        } else if (i == getIdByName("image_face")) {// 隐藏软键盘
             hideSoftInputView();
             if (f_emojicons.isVisible()) {
                 beginTransaction.hide(f_emojicons);
@@ -323,7 +348,7 @@ public class ChatActivity extends BaseActivity implements OnClickListener, OnIte
                 etMsg.setVisibility(View.VISIBLE);
             }
 
-        } else if (i == R.id.iv_say) {
+        } else if (i == getIdByName("iv_say")) {
             ivSay.setVisibility(View.GONE);
             ivKeyboard.setVisibility(View.VISIBLE);
             imageFace.setVisibility(View.GONE);
@@ -333,7 +358,7 @@ public class ChatActivity extends BaseActivity implements OnClickListener, OnIte
             etMsg.setVisibility(View.GONE);
             tvSay.setVisibility(View.VISIBLE);
 
-        } else if (i == R.id.iv_keyboard) {
+        } else if (i == getIdByName("iv_keyboard")) {
             ivKeyboard.setVisibility(View.GONE);
             ivSay.setVisibility(View.VISIBLE);
             imageFace.setVisibility(View.VISIBLE);
@@ -344,12 +369,12 @@ public class ChatActivity extends BaseActivity implements OnClickListener, OnIte
             tvSay.setVisibility(View.GONE);
 
 
-        } else if (i == R.id.ib_back || i == R.id.tv_back) {
+        } else if (i == getIdByName("ib_back") || i == getIdByName("tv_back")) {
             Intent intent = new Intent(act, MainActivity.class);
             startActivity(intent);
             finish();
 
-        } else if (i == R.id.iv_minus) {// 旋转180度 不保存状态 补间动画
+        } else if (i == getIdByName("iv_minus")) {// 旋转180度 不保存状态 补间动画
             MyAnimationUtils.rotate(ivMinus);
             openIMDao.deleteMessageByMark(msgMark);
 
@@ -389,10 +414,10 @@ public class ChatActivity extends BaseActivity implements OnClickListener, OnIte
          */
         public View getView(int position, View convertView, ViewGroup parent) {
             if (convertView == null) {
-                convertView = View.inflate(act, R.layout.grid_item, null);
+                convertView = View.inflate(act, getLayoutByName("grid_item"), null);
             }
-            ImageView icon = (ImageView) convertView.findViewById(R.id.iv_grid_item);
-            TextView name = (TextView) convertView.findViewById(R.id.tv_name_grid_item);
+            ImageView icon = (ImageView) convertView.findViewById(getIdByName("iv_grid_item"));
+            TextView name = (TextView) convertView.findViewById(getIdByName("tv_name_grid_item"));
             // 设置图标
             icon.setBackgroundResource(iconIds[position]);
             // 设置名称
@@ -406,10 +431,10 @@ public class ChatActivity extends BaseActivity implements OnClickListener, OnIte
      * 初始化
      */
     private void initPopupWindow() {
-        View view = View.inflate(act, R.layout.pop_item_chat_detail, null);
+        View view = View.inflate(act, getLayoutByName("pop_item_chat_detail"), null);
         popupWindow = new PopupWindow(view, MyUtils.dip2px(act, 100), MyUtils.dip2px(act, 50));
-        copyTv = (TextView) view.findViewById(R.id.pop_copy_tv);
-        deleteTv = (TextView) view.findViewById(R.id.pop_delete_tv);
+        copyTv = (TextView) view.findViewById(getIdByName("pop_copy_tv"));
+        deleteTv = (TextView) view.findViewById(getIdByName("pop_delete_tv"));
     }
 
     /**
@@ -827,6 +852,7 @@ public class ChatActivity extends BaseActivity implements OnClickListener, OnIte
     @SuppressLint("NewApi")
     private void init() {
         act = this;
+        iconIds = new int[]{getMipmapByName("options_camera"), getMipmapByName("options_picture"), getMipmapByName("options_location")};
         notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
         connection = MyApp.connection;
         mListView.setPullLoadEnable(false);// 设置让它上拉，FALSE为不让上拉，便不加载更多数据
@@ -835,7 +861,7 @@ public class ChatActivity extends BaseActivity implements OnClickListener, OnIte
          * 一个事务只能提交一次 如果需要多次提交 就要开多个事务
          */
         FragmentTransaction beginTransaction = supportFragmentManager.beginTransaction();
-        f_emojicons = supportFragmentManager.findFragmentById(R.id.emojicons);
+        f_emojicons = supportFragmentManager.findFragmentById(getIdByName("emojicons"));
         beginTransaction.hide(f_emojicons).commit();
 
         // 设置聊天标题
@@ -1072,30 +1098,30 @@ public class ChatActivity extends BaseActivity implements OnClickListener, OnIte
         switch ((int) signalEMA) {
             case 0:
             case 1:
-                volume.setImageResource(R.mipmap.amp1);
+                volume.setImageResource(getMipmapByName("amp1"));
                 break;
             case 2:
             case 3:
-                volume.setImageResource(R.mipmap.amp2);
+                volume.setImageResource(getMipmapByName("amp2"));
                 break;
             case 4:
             case 5:
-                volume.setImageResource(R.mipmap.amp3);
+                volume.setImageResource(getMipmapByName("amp3"));
                 break;
             case 6:
             case 7:
-                volume.setImageResource(R.mipmap.amp4);
+                volume.setImageResource(getMipmapByName("amp4"));
                 break;
             case 8:
             case 9:
-                volume.setImageResource(R.mipmap.amp5);
+                volume.setImageResource(getMipmapByName("amp5"));
                 break;
             case 10:
             case 11:
-                volume.setImageResource(R.mipmap.amp6);
+                volume.setImageResource(getMipmapByName("amp6"));
                 break;
             default:
-                volume.setImageResource(R.mipmap.amp7);
+                volume.setImageResource(getMipmapByName("amp7"));
                 break;
         }
     }

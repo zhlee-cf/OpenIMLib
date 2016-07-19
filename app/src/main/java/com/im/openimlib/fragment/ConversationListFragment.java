@@ -8,12 +8,12 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
-import com.im.openimlib.R;
+import com.im.openimlib.Utils.MResource;
 import com.im.openimlib.Utils.MyConstance;
 import com.im.openimlib.Utils.MyLog;
 import com.im.openimlib.Utils.ThreadUtil;
 import com.im.openimlib.activity.ChatActivity;
-import com.im.openimlib.adapter.NewsLVAdapter;
+import com.im.openimlib.adapter.ConversationLVAdapter;
 import com.im.openimlib.app.MyApp;
 import com.im.openimlib.bean.MessageBean;
 import com.im.openimlib.dao.OpenIMDao;
@@ -32,15 +32,32 @@ public class ConversationListFragment extends BaseFragment {
     private List<MessageBean> list = new ArrayList<>();
     private OpenIMDao openIMDao;
     private static final int QUERY_SUCCESS = 100;
-    private NewsLVAdapter mAdapter;
+    private ConversationLVAdapter mAdapter;
     private FragmentActivity act;
+
+    /**
+     * 通过控件名称获取控件id
+     * @param name
+     * @return
+     */
+    private int getIdByName(String name) {
+        return MResource.getIdByName(act, "id", name);
+    }
+
+    /**
+     * 通过layout名称获取layout的id
+     * @param layout
+     * @return
+     */
+    private int getLayoutByName(String layout) {
+        return MResource.getIdByName(act, "layout", layout);
+    }
 
     @Override
     public View initView() {
         act = getActivity();
-        View view = View.inflate(act, R.layout.fragment_conversation_list, null);
-        mListView = (ListView) view.findViewById(R.id.conversation_list);
-        MyLog.showLog("Fragment创建");
+        View view = View.inflate(act, getLayoutByName("fragment_conversation_list"), null);
+        mListView = (ListView) view.findViewById(getIdByName("conversation_list"));
         return view;
     }
 
@@ -97,7 +114,7 @@ public class ConversationListFragment extends BaseFragment {
                         pd.dismiss();
                     }
                     if (mAdapter == null) {
-                        mAdapter = new NewsLVAdapter(act, list, 0);
+                        mAdapter = new ConversationLVAdapter(act, list, 0);
                     } else {
                         // 这个要求adapter对应的list是同一个对象才能生效，不同对象不能生效
                         mAdapter.notifyDataSetChanged();

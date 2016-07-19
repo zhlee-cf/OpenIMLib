@@ -14,7 +14,7 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.im.openimlib.R;
+import com.im.openimlib.Utils.MResource;
 import com.im.openimlib.Utils.MyBitmapUtils;
 import com.im.openimlib.Utils.MyDateUtils;
 import com.im.openimlib.Utils.MyLog;
@@ -62,6 +62,43 @@ public class ChatLVAdapter extends BaseAdapter {
         }
     }
 
+    /**
+     * 通过控件名称获取控件id
+     * @param name
+     * @return
+     */
+    private int getIdByName(String name) {
+        return MResource.getIdByName(act, "id", name);
+    }
+
+    /**
+     * 通过layout名称获取layout的id
+     * @param layout
+     * @return
+     */
+    private int getLayoutByName(String layout) {
+        return MResource.getIdByName(act, "layout", layout);
+    }
+
+    /**
+     * 通过图片名称找到图片id
+     * @param mipmap
+     * @return
+     */
+    private int getMipmapByName(String mipmap){
+        return MResource.getIdByName(act,"mipmap",mipmap);
+    }
+
+    /**
+     * 通过drawable名称找到drawable
+     * @param drawable
+     * @return
+     */
+    private int getDrawableByName(String drawable){
+        return MResource.getIdByName(act,"drawable",drawable);
+    }
+
+
     @Override
     public int getCount() {
         return data.size();
@@ -84,25 +121,25 @@ public class ChatLVAdapter extends BaseAdapter {
         View view;
         ViewHolder vh;
         if (convertView == null) {
-            view = View.inflate(act, R.layout.list_item_chat_detail, null);
+            view = View.inflate(act, getLayoutByName("list_item_chat_detail"), null);
             vh = new ViewHolder();
-            TextView tv_date = (TextView) view.findViewById(R.id.tv_date);
-            LinearLayout ll_receive = (LinearLayout) view.findViewById(R.id.ll_receive);
-            CircularImage chatfrom_icon = (CircularImage) view.findViewById(R.id.chatfrom_icon);
-            TextView tv_receive_body = (TextView) view.findViewById(R.id.tv_receive_body);
-            ImageView iv_receive_image = (ImageView) view.findViewById(R.id.iv_receive_image);
-            ImageView iv_receive_audio = (ImageView) view.findViewById(R.id.iv_receive_audio);
-            ImageView iv_receive_location = (ImageView) view.findViewById(R.id.iv_receive_location);
+            TextView tv_date = (TextView) view.findViewById(getIdByName("tv_date"));
+            LinearLayout ll_receive = (LinearLayout) view.findViewById(getIdByName("ll_receive"));
+            CircularImage chatfrom_icon = (CircularImage) view.findViewById(getIdByName("chatfrom_icon"));
+            TextView tv_receive_body = (TextView) view.findViewById(getIdByName("tv_receive_body"));
+            ImageView iv_receive_image = (ImageView) view.findViewById(getIdByName("iv_receive_image"));
+            ImageView iv_receive_audio = (ImageView) view.findViewById(getIdByName("iv_receive_audio"));
+            ImageView iv_receive_location = (ImageView) view.findViewById(getIdByName("iv_receive_location"));
 
-            RelativeLayout rl_send = (RelativeLayout) view.findViewById(R.id.rl_send);
-            CircularImage chatto_icon = (CircularImage) view.findViewById(R.id.chatto_icon);
-            TextView tv_send_body = (TextView) view.findViewById(R.id.tv_send_body);
-            ImageView iv_send_image = (ImageView) view.findViewById(R.id.iv_send_image);
-            ImageView iv_send_audio = (ImageView) view.findViewById(R.id.iv_send_audio);
-            ImageView iv_send_location = (ImageView) view.findViewById(R.id.iv_send_location);
+            RelativeLayout rl_send = (RelativeLayout) view.findViewById(getIdByName("rl_send"));
+            CircularImage chatto_icon = (CircularImage) view.findViewById(getIdByName("chatto_icon"));
+            TextView tv_send_body = (TextView) view.findViewById(getIdByName("tv_send_body"));
+            ImageView iv_send_image = (ImageView) view.findViewById(getIdByName("iv_send_image"));
+            ImageView iv_send_audio = (ImageView) view.findViewById(getIdByName("iv_send_audio"));
+            ImageView iv_send_location = (ImageView) view.findViewById(getIdByName("iv_send_location"));
 
-            TextView tv_receipt = (TextView) view.findViewById(R.id.tv_receipt);
-            ImageView iv_receipt = (ImageView) view.findViewById(R.id.iv_receipt);
+            TextView tv_receipt = (TextView) view.findViewById(getIdByName("tv_receipt"));
+            ImageView iv_receipt = (ImageView) view.findViewById(getIdByName("iv_receipt"));
 
             vh.date = tv_date;
             vh.receive = ll_receive;
@@ -207,7 +244,7 @@ public class ChatLVAdapter extends BaseAdapter {
             if (avatarUrl != null) {
                 myBitmapUtils.display(vh.receiveAvatar, avatarUrl);
             } else {
-                vh.receiveAvatar.setImageResource(R.mipmap.ic_launcher);
+                vh.receiveAvatar.setImageResource(getMipmapByName("ic_launcher"));
             }
 
             if (msgType == 1) { // 1表示图片
@@ -237,7 +274,7 @@ public class ChatLVAdapter extends BaseAdapter {
                 vh.receiveAudio.setVisibility(View.VISIBLE);
                 vh.receiveImage.setVisibility(View.GONE);
                 vh.receiveLocation.setVisibility(View.GONE);
-                vh.receiveAudio.setImageResource(R.drawable.voice_from_icon);
+                vh.receiveAudio.setImageResource(getDrawableByName("voice_from_icon"));
 
                 final AnimationDrawable an = (AnimationDrawable) vh.receiveAudio.getDrawable();
                 // 设置动画初始状态
@@ -279,7 +316,7 @@ public class ChatLVAdapter extends BaseAdapter {
                 vh.receiveAudio.setVisibility(View.GONE);
                 vh.receiveLocation.setVisibility(View.GONE);
                 vh.receiveBody.setVisibility(View.VISIBLE);
-                vh.receiveBody.setText(msgBody + "----" + bean.getStanzaId());
+                vh.receiveBody.setText(msgBody);
             }
         } else {
             // adapter定理 有if必有else 不然会乱跳
@@ -289,7 +326,7 @@ public class ChatLVAdapter extends BaseAdapter {
             if (userAvatar != null) {
                 myBitmapUtils.display(vh.sendAvatar, userAvatar);
             } else {
-                vh.sendAvatar.setImageResource(R.mipmap.ic_launcher);
+                vh.sendAvatar.setImageResource(getMipmapByName("ic_launcher"));
             }
 
             if (msgType == 1) { // 1表示图片
@@ -317,7 +354,7 @@ public class ChatLVAdapter extends BaseAdapter {
                 vh.sendAudio.setVisibility(View.VISIBLE);
                 vh.sendImage.setVisibility(View.GONE);
                 vh.sendLocation.setVisibility(View.GONE);
-                vh.sendAudio.setImageResource(R.drawable.voice_to_icon);
+                vh.sendAudio.setImageResource(getDrawableByName("voice_to_icon"));
 
                 final AnimationDrawable an = (AnimationDrawable) vh.sendAudio.getDrawable();
                 // 设置动画初始状态

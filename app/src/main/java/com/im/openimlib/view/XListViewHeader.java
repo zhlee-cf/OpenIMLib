@@ -12,7 +12,7 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import com.im.openimlib.R;
+import com.im.openimlib.Utils.MResource;
 
 
 public class XListViewHeader extends LinearLayout {
@@ -45,19 +45,49 @@ public class XListViewHeader extends LinearLayout {
 		initView(context);
 	}
 
+	/**
+	 * 通过string名称获取string的id
+	 *
+	 * @param str
+	 * @return
+	 */
+	private int getStringByName(String str) {
+		return MResource.getIdByName(getContext(), "string", str);
+	}
+
+	/**
+	 * 通过控件名称获取控件id
+	 *
+	 * @param name
+	 * @return
+	 */
+	private int getIdByName(String name) {
+		return MResource.getIdByName(getContext(), "id", name);
+	}
+
+	/**
+	 * 通过layout名称获取layout的id
+	 *
+	 * @param layout
+	 * @return
+	 */
+	private int getLayoutByName(String layout) {
+		return MResource.getIdByName(getContext(), "layout", layout);
+	}
+
 	private void initView(Context context) {
 		// 初始情况，设置下拉刷新view高度为0
 		LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
 				LayoutParams.FILL_PARENT, 0);
 		// 时间TextView
 		mContainer = (LinearLayout) LayoutInflater.from(context).inflate(
-				R.layout.xlistview_header, null);
+				getLayoutByName("xlistview_header"), null);
 		addView(mContainer, lp);
 		setGravity(Gravity.BOTTOM);
 		// 找到头部页面里的控件
-		mArrowImageView = (ImageView) findViewById(R.id.xlistview_header_arrow);
-		mHintTextView = (TextView) findViewById(R.id.xlistview_header_hint_textview);
-		mProgressBar = (ProgressBar) findViewById(R.id.xlistview_header_progressbar);
+		mArrowImageView = (ImageView) findViewById(getIdByName("xlistview_header_arrow"));
+		mHintTextView = (TextView) findViewById(getIdByName("xlistview_header_hint_textview"));
+		mProgressBar = (ProgressBar) findViewById(getIdByName("xlistview_header_progressbar"));
 
 		mRotateUpAnim = new RotateAnimation(0.0f, -180.0f,
 				Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF,
@@ -93,17 +123,17 @@ public class XListViewHeader extends LinearLayout {
 			if (mState == STATE_REFRESHING) {// 当状态显示进度条的时候，清除动画
 				mArrowImageView.clearAnimation();
 			}
-			mHintTextView.setText(R.string.xlistview_header_hint_normal);// 文字提示：下拉刷新
+			mHintTextView.setText(getStringByName("xlistview_header_hint_normal"));// 文字提示：下拉刷新
 			break;
 		case STATE_READY:
 			if (mState != STATE_READY) {
 				mArrowImageView.clearAnimation();
 				mArrowImageView.startAnimation(mRotateUpAnim);
-				mHintTextView.setText(R.string.xlistview_header_hint_ready);// 松开刷新数据
+				mHintTextView.setText(getStringByName("xlistview_header_hint_ready"));// 松开刷新数据
 			}
 			break;
 		case STATE_REFRESHING:
-			mHintTextView.setText(R.string.xlistview_header_hint_loading);
+			mHintTextView.setText(getStringByName("xlistview_header_hint_loading"));
 			break;
 		default:
 		}

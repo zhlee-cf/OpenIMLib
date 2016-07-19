@@ -4,7 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 
-import com.im.openimlib.R;
+import com.im.openimlib.Utils.MResource;
 import com.im.openimlib.Utils.MyBitmapUtils;
 import com.im.openimlib.view.ZoomImageView;
 
@@ -17,12 +17,12 @@ public class ShowImageActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_show_image);
+        setContentView(getLayoutByName("activity_show_image"));
         initView();
     }
 
     private void initView() {
-        ZoomImageView imgView = (ZoomImageView)findViewById(R.id.iv_image);
+        ZoomImageView imgView = (ZoomImageView)findViewById(getIdByName("iv_image"));
         MyBitmapUtils mBitmapUtils = new MyBitmapUtils(this);
         Intent intent = getIntent();
         String picPath = intent.getStringExtra("picPath");
@@ -32,5 +32,23 @@ public class ShowImageActivity extends BaseActivity {
             imgView.setTag(-1);
             mBitmapUtils.display(imgView,picPath);
         }
+    }
+
+    /**
+     * 通过控件名称获取控件id
+     * @param name
+     * @return
+     */
+    private int getIdByName(String name) {
+        return MResource.getIdByName(getApplicationContext(), "id", name);
+    }
+
+    /**
+     * 通过layout名称获取layout的id
+     * @param layout
+     * @return
+     */
+    private int getLayoutByName(String layout) {
+        return MResource.getIdByName(getApplicationContext(), "layout", layout);
     }
 }
