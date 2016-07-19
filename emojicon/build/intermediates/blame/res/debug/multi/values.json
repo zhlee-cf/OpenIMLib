@@ -1,0 +1,26 @@
+[
+    {
+        "outputFile": "G:\\Project\\OpenIMLib\\emojicon\\build\\intermediates\\res\\merged\\debug\\values\\values.xml",
+        "map": [
+            {
+                "to": {
+                    "startLine": 3,
+                    "startColumn": 4,
+                    "startOffset": 161,
+                    "endColumn": 45,
+                    "endOffset": 202
+                },
+                "from": {
+                    "file": "G:\\Project\\OpenIMLib\\emojicon\\src\\main\\res\\values\\strings.xml",
+                    "position": {
+                        "startLine": 1,
+                        "startColumn": 4,
+                        "startOffset": 17,
+                        "endColumn": 45,
+                        "endOffset": 58
+                    }
+                }
+            }
+        ]
+    }
+]

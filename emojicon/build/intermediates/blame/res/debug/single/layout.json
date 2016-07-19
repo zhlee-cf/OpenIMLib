@@ -1,0 +1,14 @@
+[
+    {
+        "merged": "G:\\Project\\OpenIMLib\\emojicon\\build\\intermediates\\res\\merged\\debug\\layout\\emojicon_item.xml",
+        "source": "G:\\Project\\OpenIMLib\\emojicon\\src\\main\\res\\layout\\emojicon_item.xml"
+    },
+    {
+        "merged": "G:\\Project\\OpenIMLib\\emojicon\\build\\intermediates\\res\\merged\\debug\\layout\\emojicon_grid.xml",
+        "source": "G:\\Project\\OpenIMLib\\emojicon\\src\\main\\res\\layout\\emojicon_grid.xml"
+    },
+    {
+        "merged": "G:\\Project\\OpenIMLib\\emojicon\\build\\intermediates\\res\\merged\\debug\\layout\\emojicons.xml",
+        "source": "G:\\Project\\OpenIMLib\\emojicon\\src\\main\\res\\layout\\emojicons.xml"
+    }
+]
