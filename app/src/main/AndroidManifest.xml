@@ -39,26 +39,24 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
-        <!-- 这里输入百度密钥 -->
-        <meta-data
-            android:name="com.baidu.lbsapi.API_KEY"
-            android:value="RV6PfTmZxHge0QUivLIaz5FfBHb1zTEz" />
+        <!--&lt;!&ndash; 这里输入百度密钥 &ndash;&gt;-->
+        <!--<meta-data-->
+            <!--android:name="com.baidu.lbsapi.API_KEY"-->
+            <!--android:value="RV6PfTmZxHge0QUivLIaz5FfBHb1zTEz" />-->
         <!-- 百度的远程服务 -->
         <service
             android:name="com.baidu.location.f"
             android:enabled="true"
             android:process=":remote" />
 
-        <activity android:name=".activity.MainActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
         <activity
             android:name=".activity.ChatActivity"
-            android:windowSoftInputMode="adjustResize|stateHidden" />
+            android:windowSoftInputMode="adjustResize|stateHidden">
+            <intent-filter>
+                <action android:name="com.openim.activity.chatactivity"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
+        </activity>
         <activity android:name=".activity.ShowImageActivity"/>
 
         <service android:name=".service.IMService" />

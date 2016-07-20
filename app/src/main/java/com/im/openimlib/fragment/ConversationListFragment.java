@@ -12,7 +12,6 @@ import com.im.openimlib.Utils.MResource;
 import com.im.openimlib.Utils.MyConstance;
 import com.im.openimlib.Utils.MyLog;
 import com.im.openimlib.Utils.ThreadUtil;
-import com.im.openimlib.activity.ChatActivity;
 import com.im.openimlib.adapter.ConversationLVAdapter;
 import com.im.openimlib.app.MyApp;
 import com.im.openimlib.bean.MessageBean;
@@ -91,7 +90,9 @@ public class ConversationListFragment extends BaseFragment {
                 ThreadUtil.runOnBackThread(new Runnable() {
                     @Override
                     public void run() {
+                        MyLog.showLog("数据库改变::" + MyApp.username);
                         List<MessageBean> data = openIMDao.queryConversation(MyApp.username);
+                        MyLog.showLog("data::" + data);
                         list.clear();
                         for (MessageBean messageBean : data) {
                             list.add(messageBean);
@@ -118,7 +119,7 @@ public class ConversationListFragment extends BaseFragment {
                     } else {
                         // 这个要求adapter对应的list是同一个对象才能生效，不同对象不能生效
                         mAdapter.notifyDataSetChanged();
-//                        MyLog.showLog("数据库改变");
+                        MyLog.showLog("数据库改变");
                     }
                     mListView.setAdapter(mAdapter);
 
@@ -141,8 +142,9 @@ public class ConversationListFragment extends BaseFragment {
                             } else {
                                 friendName = msgFrom;
                             }
-
-                            Intent intent = new Intent(act, ChatActivity.class);
+                            Intent intent = new Intent();
+                            intent.setAction("com.openim.activity.chatactivity");
+                            intent.addCategory(Intent.CATEGORY_DEFAULT);
                             intent.putExtra("friendName", friendName);
                             intent.putExtra("friendNick", friendNick);
                             intent.putExtra("avatarUrl", avatarUrl);

@@ -5,7 +5,6 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.PowerManager;
 import android.text.TextUtils;
 
@@ -15,7 +14,6 @@ import com.im.openimlib.Utils.MyConstance;
 import com.im.openimlib.Utils.MyLog;
 import com.im.openimlib.Utils.MyUtils;
 import com.im.openimlib.Utils.MyVCardUtils;
-import com.im.openimlib.activity.ChatActivity;
 import com.im.openimlib.app.MyApp;
 import com.im.openimlib.bean.MessageBean;
 import com.im.openimlib.bean.ReceiveBean;
@@ -39,7 +37,6 @@ public class MyChatMessageListener implements ChatMessageListener {
 
     private IMService ctx;
     private NotificationManager notificationManager;
-    private SharedPreferences sp;
     private PowerManager.WakeLock wakeLock;
     private final OpenIMDao openIMDao;
     private final PowerManager pm;
@@ -48,16 +45,16 @@ public class MyChatMessageListener implements ChatMessageListener {
         this.ctx = ctx;
         this.notificationManager = notificationManager;
         openIMDao = OpenIMDao.getInstance(ctx);
-        sp = ctx.getSharedPreferences(MyConstance.SP_NAME, 0);
         pm = (PowerManager) ctx.getSystemService(Context.POWER_SERVICE);
     }
 
     /**
      * 通过图片名称找到图片id
+     *
      * @param mipmap
      * @return
      */
-    private int getMipmapByName(String mipmap){
+    private int getMipmapByName(String mipmap) {
         return MResource.getIdByName(ctx, "mipmap", mipmap);
     }
 
@@ -79,20 +76,23 @@ public class MyChatMessageListener implements ChatMessageListener {
         String from = message.getFrom();
         String friendName = from.substring(0, from.indexOf("@"));
         String friendJid = friendName + "@" + MyConstance.SERVICE_HOST;
-        String nickName;
-        String avatarUrl;
+        String nickName = friendName;
+        String avatarUrl = null;
         VCardBean vCardBean = openIMDao.findSingleVCard(friendJid);
         if (vCardBean == null) {
             vCardBean = MyVCardUtils.queryVCard(friendJid);
-            openIMDao.updateSingleVCard(vCardBean);
-        }
-        if (vCardBean != null) {
+            if (vCardBean != null) {
+                vCardBean.setJid(friendJid);
+                openIMDao.updateSingleVCard(vCardBean);
+                nickName = vCardBean.getNick();
+                avatarUrl = vCardBean.getAvatar();
+            }
+        } else {
             nickName = vCardBean.getNick();
             avatarUrl = vCardBean.getAvatar();
-        } else {
-            nickName = friendName;
-            avatarUrl = null;
         }
+
+        MyLog.showLog("vCardBean::" + vCardBean);
 
         MessageBean msg = new MessageBean();
         int msgType = 0;
@@ -120,7 +120,7 @@ public class MyChatMessageListener implements ChatMessageListener {
             msgImg = "";
         }
 
-        String username = sp.getString("username", null);
+        String username = MyApp.username;
         msg.setFromUser(friendName);
         msg.setStanzaId(message.getStanzaId());
         msg.setToUser(message.getTo().substring(0, message.getTo().indexOf("@")));
@@ -168,7 +168,9 @@ public class MyChatMessageListener implements ChatMessageListener {
         CharSequence tickerText = "您有新消息，请注意查收！";
         // 收到单人消息时，亮屏
         acquireWakeLock();
-        Intent intent = new Intent(ctx, ChatActivity.class);
+        Intent intent = new Intent();
+        intent.setAction("com.openim.activity.chatactivity");
+        intent.addCategory(Intent.CATEGORY_DEFAULT);
         intent.putExtra("friendName", friendName);
         intent.putExtra("friendNick", nickName);
         // 必须添加

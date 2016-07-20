@@ -64,12 +64,12 @@
         "source": "G:\\Project\\OpenIMLib\\emojicon\\src\\main\\res\\drawable-hdpi\\orca_composer_top_divider.9.png"
     },
     {
-        "merged": "G:\\Project\\OpenIMLib\\emojicon\\build\\intermediates\\res\\merged\\debug\\drawable-hdpi-v4\\orca_composer_tab_pressed.9.png",
-        "source": "G:\\Project\\OpenIMLib\\emojicon\\src\\main\\res\\drawable-hdpi\\orca_composer_tab_pressed.9.png"
-    },
-    {
         "merged": "G:\\Project\\OpenIMLib\\emojicon\\build\\intermediates\\res\\merged\\debug\\drawable-hdpi-v4\\orca_emoji_more_back_normal.png",
         "source": "G:\\Project\\OpenIMLib\\emojicon\\src\\main\\res\\drawable-hdpi\\orca_emoji_more_back_normal.png"
+    },
+    {
+        "merged": "G:\\Project\\OpenIMLib\\emojicon\\build\\intermediates\\res\\merged\\debug\\drawable-hdpi-v4\\orca_composer_tab_pressed.9.png",
+        "source": "G:\\Project\\OpenIMLib\\emojicon\\src\\main\\res\\drawable-hdpi\\orca_composer_tab_pressed.9.png"
     },
     {
         "merged": "G:\\Project\\OpenIMLib\\emojicon\\build\\intermediates\\res\\merged\\debug\\drawable-hdpi-v4\\orca_composer_popup_pressed.png",

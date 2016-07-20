@@ -2,10 +2,9 @@ package com.im.openimlib.app;
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 
 import com.im.openimlib.Utils.MyBase64Utils;
-import com.im.openimlib.Utils.MyConstance;
+import com.im.openimlib.Utils.MyUtils;
 import com.im.openimlib.service.IMService;
 
 /**
@@ -14,12 +13,15 @@ import com.im.openimlib.service.IMService;
 public class OpenIM {
     /**
      * 初始化OpenIM
+     *
      * @param ctx
      */
-    public static void init(Context ctx,String username,String password){
-        SharedPreferences sp = ctx.getSharedPreferences(MyConstance.SP_NAME, 0);
-        sp.edit().putString("username",username).apply();
-        sp.edit().putString("password", MyBase64Utils.encodeToString(password)).apply();
-        ctx.startService(new Intent(ctx, IMService.class));
+    public static void init(Context ctx, String username, String password) {
+        if (!MyUtils.isServiceRunning(ctx, "IMService")) {
+            Intent service = new Intent(ctx, IMService.class);
+            service.putExtra("username", username);
+            service.putExtra("password", MyBase64Utils.encodeToString(password));
+            ctx.startService(service);
+        }
     }
 }

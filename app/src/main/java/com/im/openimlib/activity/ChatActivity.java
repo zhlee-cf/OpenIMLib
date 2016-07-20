@@ -8,7 +8,6 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.content.SharedPreferences;
 import android.database.ContentObserver;
 import android.database.Cursor;
 import android.graphics.Bitmap;
@@ -111,7 +110,6 @@ public class ChatActivity extends BaseActivity implements OnClickListener, OnIte
     private ChatActivity act;
     private String friendName;
     private Chat chatTo;
-    private SharedPreferences sp;
     private MyDialog pd;
     private List<MessageBean> data;
     private List<MessageBean> data2;
@@ -370,8 +368,6 @@ public class ChatActivity extends BaseActivity implements OnClickListener, OnIte
 
 
         } else if (i == getIdByName("ib_back") || i == getIdByName("tv_back")) {
-            Intent intent = new Intent(act, MainActivity.class);
-            startActivity(intent);
             finish();
 
         } else if (i == getIdByName("iv_minus")) {// 旋转180度 不保存状态 补间动画
@@ -815,7 +811,7 @@ public class ChatActivity extends BaseActivity implements OnClickListener, OnIte
     private void insert2DB(String msgBody, String imgPath, int type, final String stanzaId) {
         // 封装消息内容等信息的bean
         MessageBean msg = new MessageBean();
-        msg.setFromUser(sp.getString("username", ""));
+        msg.setFromUser(MyApp.username);
         msg.setToUser(friendName);
         msg.setIsRead("1"); // 1表示已读 0表示未读 我发送出去的消息 我肯定是已读的
         msg.setBody(msgBody);
@@ -876,9 +872,7 @@ public class ChatActivity extends BaseActivity implements OnClickListener, OnIte
         } else {
             tvTitle.setText(friendName);
         }
-
-        sp = getSharedPreferences(MyConstance.SP_NAME, 0);
-        username = sp.getString("username", null);
+        username = MyApp.username;
         msgMark = username + "#" + friendName;
         openIMDao = OpenIMDao.getInstance(act);
 
@@ -1188,8 +1182,6 @@ public class ChatActivity extends BaseActivity implements OnClickListener, OnIte
 
     @Override
     public void onBackPressed() {
-        Intent intent = new Intent(act, MainActivity.class);
-        startActivity(intent);
         super.onBackPressed();
     }
 

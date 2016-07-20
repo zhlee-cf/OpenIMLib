@@ -10,7 +10,6 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.content.SharedPreferences;
 import android.os.Handler;
 import android.os.IBinder;
 import android.os.Looper;
@@ -65,7 +64,7 @@ public class IMService extends Service {
     private static final int LOGIN_FIRST = 1000;
     private static final int LOGIN_SECOND = 2000;
     private static final int LOGIN_FAIL = 3000;
-    private SharedPreferences sp;
+//    private SharedPreferences sp;
     private String username;
     private static IMService mIMService;
 
@@ -311,7 +310,7 @@ public class IMService extends Service {
     private void initObject() {
         mIMService = this;
         openIMDao = OpenIMDao.getInstance(mIMService);
-        sp = getSharedPreferences(MyConstance.SP_NAME, 0);
+//        sp = getSharedPreferences(MyConstance.SP_NAME, 0);
         notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
         if (MyApp.connection == null) {
             XMPPConnectionUtils.initXMPPConnection(mIMService);
@@ -324,11 +323,7 @@ public class IMService extends Service {
      * 初始化 获取用户名和密码
      */
     private void initData() {
-        username = sp.getString("username", "");
-        if (MyApp.username == null) {
-            MyApp.username = username;
-        }
-        password = MyBase64Utils.decode(sp.getString("password", ""));
+
     }
 
     /**
@@ -558,7 +553,12 @@ public class IMService extends Service {
      * 如果没有传递任何开始命令给service，那将获取到null的intent。
      */
     public int onStartCommand(Intent intent, int flags, int startId) {
-        return START_STICKY;
+        username = intent.getStringExtra("username");
+        if (MyApp.username == null) {
+            MyApp.username = username;
+        }
+        password = MyBase64Utils.decode(intent.getStringExtra("password"));
+        return START_REDELIVER_INTENT;
     }
 
     /**
@@ -839,8 +839,8 @@ public class IMService extends Service {
             public void onClick(DialogInterface dialog, int which) {
                 stopSelf();
                 MyApp.clearActivity();
-                // 被挤掉线 如果选择退出应用 则清空密码
-                sp.edit().putString("password", "").apply();
+//                // 被挤掉线 如果选择退出应用 则清空密码
+//                sp.edit().putString("password", "").apply();
             }
         });
         builder.setPositiveButton("重新登录", new DialogInterface.OnClickListener() {
