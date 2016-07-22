@@ -21,7 +21,7 @@ import com.im.openimlib.Utils.MyLog;
 import com.im.openimlib.Utils.MyMediaPlayerUtils;
 import com.im.openimlib.activity.ChatActivity;
 import com.im.openimlib.activity.ShowImageActivity;
-import com.im.openimlib.app.MyApp;
+import com.im.openimlib.app.OpenIMApp;
 import com.im.openimlib.baidumap.BaiduMapActivity;
 import com.im.openimlib.bean.MessageBean;
 import com.im.openimlib.view.CircularImage;
@@ -57,8 +57,8 @@ public class ChatLVAdapter extends BaseAdapter {
         sdf2 = new SimpleDateFormat("MM月dd日  HH:mm", Locale.CHINA);
         sdf3 = new SimpleDateFormat(" HH:mm", Locale.CHINA);
 
-        if (MyApp.avatarUrl != null) {
-            userAvatar = MyApp.avatarUrl;
+        if (OpenIMApp.avatarUrl != null) {
+            userAvatar = OpenIMApp.avatarUrl;
         }
     }
 
@@ -237,7 +237,7 @@ public class ChatLVAdapter extends BaseAdapter {
         }
         vh.date.setText(msgDate);
 
-        if (!msgFrom.equals(MyApp.username)) { // 0表示收到消息 1表示发出消息
+        if (!msgFrom.equals(OpenIMApp.username)) { // 0表示收到消息 1表示发出消息
             vh.send.setVisibility(View.GONE);
             vh.receive.setVisibility(View.VISIBLE);
 

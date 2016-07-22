@@ -1,7 +1,7 @@
 package com.im.openimlib.Utils;
 
 
-import com.im.openimlib.app.MyApp;
+import com.im.openimlib.app.OpenIMApp;
 import com.im.openimlib.bean.VCardBean;
 
 import org.jivesoftware.smack.SmackException;
@@ -16,13 +16,13 @@ import org.jivesoftware.smackx.vcardtemp.packet.VCard;
 public class MyVCardUtils {
 
     public static VCardBean queryVCard(String friendJid) {
-        VCardManager vCardManager = VCardManager.getInstanceFor(MyApp.connection);
+        VCardManager vCardManager = VCardManager.getInstanceFor(OpenIMApp.connection);
         final VCardBean bean = new VCardBean();
         final VCard vCard;
         try {
             if (friendJid == null) {
                 vCard = vCardManager.loadVCard();
-                friendJid = MyApp.username + "@" + MyConstance.SERVICE_HOST;
+                friendJid = OpenIMApp.username + "@" + MyConstance.SERVICE_HOST;
             } else {
                 vCard = vCardManager.loadVCard(friendJid);
             }

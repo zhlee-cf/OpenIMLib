@@ -13,9 +13,9 @@ import com.im.openimlib.Utils.MResource;
 
 public class MyDialog extends Dialog {
 
-	public MyDialog(Context context) {
+	public MyDialog(Context context,int styleId) {
 //		super(context, R.style.CustomProgressDialog);
-		super(context);
+		super(context,styleId);
 	}
 
 	/**
@@ -36,15 +36,6 @@ public class MyDialog extends Dialog {
 	 */
 	private int getLayoutByName(String layout) {
 		return MResource.getIdByName(getContext(), "layout", layout);
-	}
-
-	/**
-	 * 通过style名称获取style的id
-	 * @param style
-	 * @return
-	 */
-	private int getStyleByName(String style){
-		return MResource.getIdByName(getContext(),"style",style);
 	}
 
 	@Override

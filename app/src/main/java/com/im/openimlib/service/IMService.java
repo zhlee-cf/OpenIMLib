@@ -24,7 +24,7 @@ import com.im.openimlib.Utils.MyNetUtils;
 import com.im.openimlib.Utils.MyVCardUtils;
 import com.im.openimlib.Utils.ThreadUtil;
 import com.im.openimlib.Utils.XMPPConnectionUtils;
-import com.im.openimlib.app.MyApp;
+import com.im.openimlib.app.OpenIMApp;
 import com.im.openimlib.bean.VCardBean;
 import com.im.openimlib.dao.OpenIMDao;
 import com.im.openimlib.receiver.MyChatMessageListener;
@@ -108,8 +108,8 @@ public class IMService extends Service {
         startForeground(0, null);
         // 开启计时器 每5分钟唤醒一次服务
         setTickAlarm();
-        // 注册应用是否在前台监听
-        registerAppForegroundListener();
+//        // 注册应用是否在前台监听
+//        registerAppForegroundListener();
         // 注册act可见监听
         registerActOnResumeListener();
         if (MyNetUtils.isNetworkConnected(mIMService)) {
@@ -153,7 +153,7 @@ public class IMService extends Service {
             @Override
             public void onScreenOn() {
                 MyLog.showLog("亮屏");
-                if (!MyApp.isActive) {
+//                if (!OpenIMApp.isActive) {
                     ThreadUtil.runOnBackThread(new Runnable() {
                         @Override
                         public void run() {
@@ -173,13 +173,13 @@ public class IMService extends Service {
                             }
                         }
                     });
-                }
+//                }
             }
 
             @Override
             public void onScreenOff() {
                 MyLog.showLog("锁屏");
-                MyApp.isActive = false;
+//                OpenIMApp.isActive = false;
             }
         });
     }
@@ -208,7 +208,7 @@ public class IMService extends Service {
         connection.disconnect();
         // 重新初始化connection对象并连接登录
         XMPPConnectionUtils.initXMPPConnection(mIMService);
-        connection = MyApp.connection;
+        connection = OpenIMApp.connection;
         MyLog.showLog("loginServer===============connect" + connection.isConnected());
         try {
             connection.connect();
@@ -280,7 +280,7 @@ public class IMService extends Service {
         if (connection == null) {
             MyLog.showLog("1");
             XMPPConnectionUtils.initXMPPConnection(mIMService);
-            connection = MyApp.connection;
+            connection = OpenIMApp.connection;
             reLogin();
         } else if (!connection.isConnected()) {
             MyLog.showLog("2---auth" + connection.isAuthenticated());
@@ -312,11 +312,11 @@ public class IMService extends Service {
         openIMDao = OpenIMDao.getInstance(mIMService);
 //        sp = getSharedPreferences(MyConstance.SP_NAME, 0);
         notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
-        if (MyApp.connection == null) {
+        if (OpenIMApp.connection == null) {
             XMPPConnectionUtils.initXMPPConnection(mIMService);
             MyLog.showLog("重新初始化连接");
         }
-        connection = MyApp.connection;
+        connection = OpenIMApp.connection;
     }
 
     /**
@@ -343,7 +343,7 @@ public class IMService extends Service {
                     MyLog.showLog("-------登录成功--------");
                     // 获取离线消息
                     initOfflineMessages();
-                    MyApp.connection = (XMPPTCPConnection) connection;
+                    OpenIMApp.connection = (XMPPTCPConnection) connection;
 
                     if (dialog != null && dialog.isShowing()) {
                         dialog.dismiss();
@@ -467,7 +467,7 @@ public class IMService extends Service {
                         MyLog.showLog("服务中重新登录");
                         handler.sendEmptyMessage(LOGIN_FIRST);
                     }
-                    MyApp.username = username;
+                    OpenIMApp.username = username;
                 } catch (SmackException | IOException | XMPPException e) {
                     handler.sendEmptyMessage(LOGIN_FAIL);
                     e.printStackTrace();
@@ -500,50 +500,50 @@ public class IMService extends Service {
         alarmMgr.cancel(tickPendIntent);
     }
 
-    /**
-     * 接收程序在前台运行的广播
-     * 收到广播后判断应用联网状态
-     * 若链接网络 则登录
-     * 只尝试登录一次
-     */
-    private void registerAppForegroundListener() {
-        mAppForegroundReceiver = new BroadcastReceiver() {
-            @Override
-            public void onReceive(Context context, Intent intent) {
-
-                handler.post(new Runnable() {
-                    @Override
-                    public void run() {
-                        Toast.makeText(mIMService, "登录状态::" + loginState, Toast.LENGTH_SHORT).show();
-                    }
-                });
-
-                if (MyNetUtils.isNetworkConnected(mIMService)) {
-                    handler.post(new Runnable() {
-                        @Override
-                        public void run() {
-                            Toast.makeText(mIMService, "应用已掉线，收到登录广播", Toast.LENGTH_SHORT).show();
-                        }
-                    });
-                    // TODO
-                    ThreadUtil.runOnBackThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            loginServer();
-                            handler.post(new Runnable() {
-                                @Override
-                                public void run() {
-                                    Toast.makeText(mIMService, "前台广播登录成功", Toast.LENGTH_SHORT).show();
-                                }
-                            });
-                        }
-                    });
-                }
-            }
-        };
-        IntentFilter filter = new IntentFilter(MyConstance.APP_FOREGROUND_ACTION);
-        registerReceiver(mAppForegroundReceiver, filter);
-    }
+//    /**
+//     * 接收程序在前台运行的广播
+//     * 收到广播后判断应用联网状态
+//     * 若链接网络 则登录
+//     * 只尝试登录一次
+//     */
+//    private void registerAppForegroundListener() {
+//        mAppForegroundReceiver = new BroadcastReceiver() {
+//            @Override
+//            public void onReceive(Context context, Intent intent) {
+//
+//                handler.post(new Runnable() {
+//                    @Override
+//                    public void run() {
+//                        Toast.makeText(mIMService, "登录状态::" + loginState, Toast.LENGTH_SHORT).show();
+//                    }
+//                });
+//
+//                if (MyNetUtils.isNetworkConnected(mIMService)) {
+//                    handler.post(new Runnable() {
+//                        @Override
+//                        public void run() {
+//                            Toast.makeText(mIMService, "应用已掉线，收到登录广播", Toast.LENGTH_SHORT).show();
+//                        }
+//                    });
+//                    // TODO
+//                    ThreadUtil.runOnBackThread(new Runnable() {
+//                        @Override
+//                        public void run() {
+//                            loginServer();
+//                            handler.post(new Runnable() {
+//                                @Override
+//                                public void run() {
+//                                    Toast.makeText(mIMService, "前台广播登录成功", Toast.LENGTH_SHORT).show();
+//                                }
+//                            });
+//                        }
+//                    });
+//                }
+//            }
+//        };
+//        IntentFilter filter = new IntentFilter(MyConstance.APP_FOREGROUND_ACTION);
+//        registerReceiver(mAppForegroundReceiver, filter);
+//    }
 
     @Override
     /**
@@ -554,8 +554,8 @@ public class IMService extends Service {
      */
     public int onStartCommand(Intent intent, int flags, int startId) {
         username = intent.getStringExtra("username");
-        if (MyApp.username == null) {
-            MyApp.username = username;
+        if (OpenIMApp.username == null) {
+            OpenIMApp.username = username;
         }
         password = MyBase64Utils.decode(intent.getStringExtra("password"));
         return START_REDELIVER_INTENT;
@@ -692,7 +692,7 @@ public class IMService extends Service {
                     // 登录后查询自己的VCard信息
                     VCardBean userVCard = MyVCardUtils.queryVCard(null);
                     if (userVCard != null) {
-                        MyApp.avatarUrl = userVCard.getAvatar();
+                        OpenIMApp.avatarUrl = userVCard.getAvatar();
                         userVCard.setJid(username + "@" + MyConstance.SERVICE_HOST);
                         openIMDao.updateSingleVCard(userVCard);
                     }
@@ -838,7 +838,7 @@ public class IMService extends Service {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 stopSelf();
-                MyApp.clearActivity();
+                OpenIMApp.clearActivity();
 //                // 被挤掉线 如果选择退出应用 则清空密码
 //                sp.edit().putString("password", "").apply();
             }
@@ -851,7 +851,7 @@ public class IMService extends Service {
                     mConnectionListener = null;
                 }
                 XMPPConnectionUtils.initXMPPConnection(mIMService);
-                connection = MyApp.connection;
+                connection = OpenIMApp.connection;
                 try {
                     if (!connection.isConnected()) {
                         connection.connect();
@@ -868,7 +868,7 @@ public class IMService extends Service {
             public boolean onKey(DialogInterface dialog, int keyCode, KeyEvent event) {
                 if (KeyEvent.KEYCODE_BACK == keyCode) {
                     stopSelf();
-                    MyApp.clearActivity();
+                    OpenIMApp.clearActivity();
                 }
                 return false;
             }
@@ -888,7 +888,7 @@ public class IMService extends Service {
         if (dialog != null && dialog.isShowing()) {
             dialog.dismiss();
             stopSelf();
-            MyApp.clearActivity();
+            OpenIMApp.clearActivity();
         }
     }
 }

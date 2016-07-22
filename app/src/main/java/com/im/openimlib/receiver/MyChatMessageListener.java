@@ -14,7 +14,7 @@ import com.im.openimlib.Utils.MyConstance;
 import com.im.openimlib.Utils.MyLog;
 import com.im.openimlib.Utils.MyUtils;
 import com.im.openimlib.Utils.MyVCardUtils;
-import com.im.openimlib.app.MyApp;
+import com.im.openimlib.app.OpenIMApp;
 import com.im.openimlib.bean.MessageBean;
 import com.im.openimlib.bean.ReceiveBean;
 import com.im.openimlib.bean.VCardBean;
@@ -120,7 +120,7 @@ public class MyChatMessageListener implements ChatMessageListener {
             msgImg = "";
         }
 
-        String username = MyApp.username;
+        String username = OpenIMApp.username;
         msg.setFromUser(friendName);
         msg.setStanzaId(message.getStanzaId());
         msg.setToUser(message.getTo().substring(0, message.getTo().indexOf("@")));
@@ -136,10 +136,10 @@ public class MyChatMessageListener implements ChatMessageListener {
         msg.setAvatar(avatarUrl);
 
         openIMDao.saveSingleMessage(msg);
-        MyLog.showLog("App::" + MyApp.friendName);
+        MyLog.showLog("App::" + OpenIMApp.friendName);
         MyLog.showLog("消息::" + friendName);
 
-        if (MyUtils.isTopActivity(ctx) && pm.isScreenOn() && friendName.equals(MyApp.friendName)) {
+        if (MyUtils.isTopActivity(ctx) && pm.isScreenOn() && friendName.equals(OpenIMApp.friendName)) {
             // 通知栏不展示
             newMsgNotifyWhileChatting();
         } else {

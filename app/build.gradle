@@ -47,7 +47,6 @@ dependencies {
     compile files('libs/smack-im-4.1.7.jar')
     compile files('libs/smack-sasl-provided-4.1.7.jar')
     compile files('libs/smack-tcp-4.1.7.jar')
-    compile files('libs/pinyin4j-2.5.0.jar')
     compile files('libs/org.xbill.dns_2.1.7.jar')
     compile files('libs/minidns-0.1.7.jar')
     compile files('libs/jxmpp-util-cache-0.4.2.jar')
@@ -56,7 +55,6 @@ dependencies {
     compile files('libs/httpmime-4.3.4.jar')
     compile files('libs/httpcore-4.3.jar')
     compile files('libs/BaiduLBS_Android.jar')
-    compile files('libs/xUtils-2.6.8.jar')
     compile files('libs/gson-2.4.jar')
     compile project(':emojicon')
 }

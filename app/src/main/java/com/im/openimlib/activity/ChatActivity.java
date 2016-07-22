@@ -58,7 +58,7 @@ import com.im.openimlib.Utils.MyTextUtils;
 import com.im.openimlib.Utils.MyUtils;
 import com.im.openimlib.Utils.ThreadUtil;
 import com.im.openimlib.adapter.ChatLVAdapter;
-import com.im.openimlib.app.MyApp;
+import com.im.openimlib.app.OpenIMApp;
 import com.im.openimlib.baidumap.BaiduMapActivity;
 import com.im.openimlib.bean.MessageBean;
 import com.im.openimlib.bean.ReceiveBean;
@@ -207,6 +207,15 @@ public class ChatActivity extends BaseActivity implements OnClickListener, OnIte
     }
 
     /**
+     * 通过style名称获取style的id
+     * @param style
+     * @return
+     */
+    private int getStyleByName(String style){
+        return MResource.getIdByName(getApplicationContext(),"style",style);
+    }
+
+    /**
      * 通过图片名称找到图片id
      * @param mipmap
      * @return
@@ -223,7 +232,7 @@ public class ChatActivity extends BaseActivity implements OnClickListener, OnIte
         gvMore.setAdapter(myGridViewAdapter);
         gvMore.setOnItemClickListener(this);
 
-        pd = new MyDialog(act);
+        pd = new MyDialog(act,getStyleByName("CustomProgressDialog"));
         pd.show();
 
         ThreadUtil.runOnBackThread(new Runnable() {
@@ -552,25 +561,6 @@ public class ChatActivity extends BaseActivity implements OnClickListener, OnIte
                 return false;
             }
         });
-
-
-//        // listView设置触摸时间，触摸时，隐藏一些空间
-//        mListView.setOnTouchListener(new OnTouchListener() {
-//            @SuppressLint("NewApi")
-//            @Override
-//            public boolean onTouch(View v, MotionEvent event) {
-//                if (event.getAction() == MotionEvent.ACTION_DOWN) {
-//                    if (f_emojicons.isVisible()) {
-//                        getSupportFragmentManager().beginTransaction().hide(f_emojicons).commit();
-//                    }
-//                    if (gvMore.isShown()) {
-//                        gvMore.setVisibility(View.GONE);
-//                    }
-//                    hideSoftInputView();
-//                }
-//                return false;
-//            }
-//        });
         /**
          * 返回按钮点击事件
          */
@@ -784,7 +774,7 @@ public class ChatActivity extends BaseActivity implements OnClickListener, OnIte
     @Override
     protected void doNewConnection() {
 
-        connection = MyApp.connection;
+        connection = OpenIMApp.connection;
         if (connection != null) {
             cm = ChatManager.getInstanceFor(connection);
             chatTo = cm.createChat(friendJid);
@@ -811,7 +801,7 @@ public class ChatActivity extends BaseActivity implements OnClickListener, OnIte
     private void insert2DB(String msgBody, String imgPath, int type, final String stanzaId) {
         // 封装消息内容等信息的bean
         MessageBean msg = new MessageBean();
-        msg.setFromUser(MyApp.username);
+        msg.setFromUser(OpenIMApp.username);
         msg.setToUser(friendName);
         msg.setIsRead("1"); // 1表示已读 0表示未读 我发送出去的消息 我肯定是已读的
         msg.setBody(msgBody);
@@ -850,7 +840,7 @@ public class ChatActivity extends BaseActivity implements OnClickListener, OnIte
         act = this;
         iconIds = new int[]{getMipmapByName("options_camera"), getMipmapByName("options_picture"), getMipmapByName("options_location")};
         notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
-        connection = MyApp.connection;
+        connection = OpenIMApp.connection;
         mListView.setPullLoadEnable(false);// 设置让它上拉，FALSE为不让上拉，便不加载更多数据
         FragmentManager supportFragmentManager = getSupportFragmentManager();
         /**
@@ -863,7 +853,7 @@ public class ChatActivity extends BaseActivity implements OnClickListener, OnIte
         // 设置聊天标题
         intent = getIntent();
         friendName = intent.getStringExtra("friendName");
-        MyApp.friendName = friendName;
+        OpenIMApp.friendName = friendName;
         nickName = intent.getStringExtra("friendNick");
         avatarUrl = intent.getStringExtra("avatarUrl");
         friendJid = friendName + "@" + MyConstance.SERVICE_HOST;
@@ -872,7 +862,7 @@ public class ChatActivity extends BaseActivity implements OnClickListener, OnIte
         } else {
             tvTitle.setText(friendName);
         }
-        username = MyApp.username;
+        username = OpenIMApp.username;
         msgMark = username + "#" + friendName;
         openIMDao = OpenIMDao.getInstance(act);
 

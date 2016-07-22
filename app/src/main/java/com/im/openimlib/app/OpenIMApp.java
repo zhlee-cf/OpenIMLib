@@ -8,15 +8,15 @@ import org.litepal.LitePalApplication;
 
 import java.util.ArrayList;
 
-public class MyApp extends LitePalApplication {
+public class OpenIMApp extends LitePalApplication {
     /**
      * 在登录注册界面创建的连接对象 登录界面赋值
      */
     public static XMPPTCPConnection connection;
-    /**
-     * 应用是否在前台
-     */
-    public static boolean isActive;
+//    /**
+//     * 应用是否在前台
+//     */
+//    public static boolean isActive;
     /**
      * 登录后存储用户名
      */

@@ -14,7 +14,7 @@ import com.im.openimlib.Utils.MyLog;
 import com.im.openimlib.Utils.MyNetUtils;
 import com.im.openimlib.Utils.MyUtils;
 import com.im.openimlib.Utils.ThreadUtil;
-import com.im.openimlib.app.MyApp;
+import com.im.openimlib.app.OpenIMApp;
 
 import org.jivesoftware.smack.SmackException;
 import org.jivesoftware.smack.tcp.XMPPTCPConnection;
@@ -33,11 +33,11 @@ public class BaseActivity extends FragmentActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         act = this;
-        MyApp.addActivity(this);
+        OpenIMApp.addActivity(this);
 
         pm = (PowerManager) getSystemService(Context.POWER_SERVICE);
 
-        connection = MyApp.connection;
+        connection = OpenIMApp.connection;
 
         newConnectReceiver = new BroadcastReceiver() {
             @Override
@@ -57,7 +57,7 @@ public class BaseActivity extends FragmentActivity {
 
     @Override
     protected void onResume() {
-        connection = MyApp.connection;
+        connection = OpenIMApp.connection;
         ThreadUtil.runOnBackThread(new Runnable() {
             @Override
             public void run() {
@@ -76,16 +76,16 @@ public class BaseActivity extends FragmentActivity {
                     MyUtils.showToast(act, "应用可见,ping结果::" + isReachable);
                     if (!isReachable) {
                         if (isFocus) {
-                            sendBroadcast(new Intent(MyConstance.APP_FOREGROUND_ACTION));
+                            sendBroadcast(new Intent(MyConstance.ACT_ONRESUME_ACTION));
                         }
                     }
-                    if (!MyApp.isActive) {
-                        MyApp.isActive = true;
-                        MyLog.showLog("程序处于前台");
-                        if (isReachable) {
-                            sendBroadcast(new Intent(MyConstance.INIT_OFFLINE_MESSAGE_ACTION));
-                        }
-                    }
+//                    if (!OpenIMApp.isActive) {
+//                        OpenIMApp.isActive = true;
+//                        MyLog.showLog("程序处于前台");
+//                        if (isReachable) {
+//                            sendBroadcast(new Intent(MyConstance.INIT_OFFLINE_MESSAGE_ACTION));
+//                        }
+//                    }
                 }
             }
         });
@@ -111,19 +111,19 @@ public class BaseActivity extends FragmentActivity {
         super.onDestroy();
     }
 
-    @Override
-    protected void onStop() {
-        super.onStop();
-        ThreadUtil.runOnBackThread(new Runnable() {
-            @Override
-            public void run() {
-                if (!isAppOnForeground()) {
-                    MyApp.isActive = false;
-                    MyLog.showLog("程序处于后台");
-                }
-            }
-        });
-    }
+//    @Override
+//    protected void onStop() {
+//        super.onStop();
+//        ThreadUtil.runOnBackThread(new Runnable() {
+//            @Override
+//            public void run() {
+//                if (!isAppOnForeground()) {
+//                    OpenIMApp.isActive = false;
+//                    MyLog.showLog("程序处于后台");
+//                }
+//            }
+//        });
+//    }
 
     /**
      * 程序是否在前台运行
@@ -140,6 +140,8 @@ public class BaseActivity extends FragmentActivity {
             return false;
 
         for (ActivityManager.RunningAppProcessInfo appProcess : appProcesses) {
+            MyLog.showLog("appProcess.processName::" + appProcess.processName);
+            MyLog.showLog("packageName::" + packageName);
             if (appProcess.processName.equals(packageName)
                     && appProcess.importance == ActivityManager.RunningAppProcessInfo.IMPORTANCE_FOREGROUND) {
                 return true;

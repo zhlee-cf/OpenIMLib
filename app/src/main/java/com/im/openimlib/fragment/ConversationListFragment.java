@@ -13,7 +13,7 @@ import com.im.openimlib.Utils.MyConstance;
 import com.im.openimlib.Utils.MyLog;
 import com.im.openimlib.Utils.ThreadUtil;
 import com.im.openimlib.adapter.ConversationLVAdapter;
-import com.im.openimlib.app.MyApp;
+import com.im.openimlib.app.OpenIMApp;
 import com.im.openimlib.bean.MessageBean;
 import com.im.openimlib.dao.OpenIMDao;
 import com.im.openimlib.view.MyDialog;
@@ -52,6 +52,15 @@ public class ConversationListFragment extends BaseFragment {
         return MResource.getIdByName(act, "layout", layout);
     }
 
+    /**
+     * 通过style名称获取style的id
+     * @param style
+     * @return
+     */
+    private int getStyleByName(String style){
+        return MResource.getIdByName(act,"style",style);
+    }
+
     @Override
     public View initView() {
         act = getActivity();
@@ -63,14 +72,14 @@ public class ConversationListFragment extends BaseFragment {
     @Override
     public void initData() {
         openIMDao = OpenIMDao.getInstance(act);
-        pd = new MyDialog(act);
+        pd = new MyDialog(act,getStyleByName("CustomProgressDialog"));
         pd.show();
         ThreadUtil.runOnBackThread(new Runnable() {
             @Override
             public void run() {
                 list.clear();
-                MyLog.showLog("owner::" + MyApp.username);
-                List<MessageBean> data = openIMDao.queryConversation(MyApp.username);
+                MyLog.showLog("owner::" + OpenIMApp.username);
+                List<MessageBean> data = openIMDao.queryConversation(OpenIMApp.username);
                 for (MessageBean messageBean : data) {
                     list.add(messageBean);
                 }
@@ -90,8 +99,8 @@ public class ConversationListFragment extends BaseFragment {
                 ThreadUtil.runOnBackThread(new Runnable() {
                     @Override
                     public void run() {
-                        MyLog.showLog("数据库改变::" + MyApp.username);
-                        List<MessageBean> data = openIMDao.queryConversation(MyApp.username);
+                        MyLog.showLog("数据库改变::" + OpenIMApp.username);
+                        List<MessageBean> data = openIMDao.queryConversation(OpenIMApp.username);
                         MyLog.showLog("data::" + data);
                         list.clear();
                         for (MessageBean messageBean : data) {
@@ -137,7 +146,7 @@ public class ConversationListFragment extends BaseFragment {
                             String msgTo = bean.getToUser();
                             String avatarUrl = bean.getAvatar();
                             String friendName;
-                            if (msgFrom.equals(MyApp.username)) {
+                            if (msgFrom.equals(OpenIMApp.username)) {
                                 friendName = msgTo;
                             } else {
                                 friendName = msgFrom;

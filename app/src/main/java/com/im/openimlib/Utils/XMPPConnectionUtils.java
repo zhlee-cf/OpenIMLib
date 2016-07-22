@@ -3,7 +3,7 @@ package com.im.openimlib.Utils;
 import android.content.Context;
 import android.os.Environment;
 
-import com.im.openimlib.app.MyApp;
+import com.im.openimlib.app.OpenIMApp;
 import com.im.openimlib.dao.OpenIMDao;
 
 import org.jivesoftware.smack.ConnectionConfiguration;
@@ -90,7 +90,7 @@ public class XMPPConnectionUtils {
         reconnectionManager.disableAutomaticReconnection();
 
         // 将连接对象变成全应用变量
-        MyApp.connection = connection;
+        OpenIMApp.connection = connection;
 
         /**
          * 监听创建连接后 发出的数据
