@@ -1,5 +1,6 @@
 package com.im.openimlib.fragment;
 
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.database.ContentObserver;
 import android.os.Handler;
@@ -7,10 +8,12 @@ import android.support.v4.app.FragmentActivity;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.im.openimlib.Utils.MResource;
 import com.im.openimlib.Utils.MyConstance;
 import com.im.openimlib.Utils.MyLog;
+import com.im.openimlib.Utils.MyUtils;
 import com.im.openimlib.Utils.ThreadUtil;
 import com.im.openimlib.adapter.ConversationLVAdapter;
 import com.im.openimlib.app.OpenIMApp;
@@ -36,6 +39,7 @@ public class ConversationListFragment extends BaseFragment {
 
     /**
      * 通过控件名称获取控件id
+     *
      * @param name
      * @return
      */
@@ -45,6 +49,7 @@ public class ConversationListFragment extends BaseFragment {
 
     /**
      * 通过layout名称获取layout的id
+     *
      * @param layout
      * @return
      */
@@ -54,11 +59,12 @@ public class ConversationListFragment extends BaseFragment {
 
     /**
      * 通过style名称获取style的id
+     *
      * @param style
      * @return
      */
-    private int getStyleByName(String style){
-        return MResource.getIdByName(act,"style",style);
+    private int getStyleByName(String style) {
+        return MResource.getIdByName(act, "style", style);
     }
 
     @Override
@@ -72,7 +78,7 @@ public class ConversationListFragment extends BaseFragment {
     @Override
     public void initData() {
         openIMDao = OpenIMDao.getInstance(act);
-        pd = new MyDialog(act,getStyleByName("CustomProgressDialog"));
+        pd = new MyDialog(act, getStyleByName("CustomProgressDialog"));
         pd.show();
         ThreadUtil.runOnBackThread(new Runnable() {
             @Override
@@ -160,8 +166,59 @@ public class ConversationListFragment extends BaseFragment {
                             act.startActivity(intent);
                         }
                     });
+                    mListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+                        @Override
+                        public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                            MyLog.showLog("长按会话列表条目");
+                            ListView listView = (ListView) parent;
+                            MessageBean bean = (MessageBean) listView.getItemAtPosition(position);
+
+                            String msgFrom = bean.getFromUser();
+                            String friendNick = bean.getNick();
+                            String msgTo = bean.getToUser();
+                            String friendName;
+                            if (msgFrom.equals(OpenIMApp.username)) {
+                                friendName = msgTo;
+                            } else {
+                                friendName = msgFrom;
+                            }
+                            if (friendNick != null) {
+                                showDialog(friendNick,friendName);
+                            } else {
+                                showDialog(friendName,friendName);
+                            }
+                            return true;
+                        }
+                    });
                     break;
             }
         }
     };
+
+    private void showDialog(String friendNick, final String friendName) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(act);
+        final AlertDialog dialog = builder.create();
+        View view = View.inflate(act, getLayoutByName("dialog_conversation"), null);
+        TextView tvNick = (TextView) view.findViewById(getIdByName("tv_nick"));
+        TextView tvTop = (TextView) view.findViewById(getIdByName("tv_top"));
+        TextView tvDelete = (TextView) view.findViewById(getIdByName("tv_delete"));
+        tvTop.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                MyUtils.showToast(act,"置顶该会话");
+                dialog.dismiss();
+            }
+        });
+        tvDelete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openIMDao.deleteMessageByMark(OpenIMApp.username + "#" + friendName);
+                MyUtils.showToast(act, "删除该会话");
+                dialog.dismiss();
+            }
+        });
+        tvNick.setText(friendNick);
+        dialog.setView(view, 0, 0, 0, 0);
+        dialog.show();
+    }
 }
