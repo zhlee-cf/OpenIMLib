@@ -238,6 +238,8 @@ public class ChatActivity extends BaseActivity implements OnClickListener, OnIte
         ThreadUtil.runOnBackThread(new Runnable() {
             @Override
             public void run() {
+//            	模拟加载耗时
+//            	SystemClock.sleep(5000);
                 // 首次进入页面 0偏移查询5条聊天信息
                 data = openIMDao.findMessageByMark(msgMark, 0);
                 // 发送查询完成消息
@@ -312,17 +314,12 @@ public class ChatActivity extends BaseActivity implements OnClickListener, OnIte
             try {
                 Message message = new Message();
                 final String stanzaId = message.getStanzaId();
-                String thread = message.getThread();
-                MyLog.showLog("thread::" + thread);
                 message.setBody(msgBody);
                 // 通过会话对象发送消息
                 // 创建会话对象时已经指定接收者了
-                MyLog.showLog("message::" + message.toXML());
                 if (chatTo != null) {
-                    MyLog.showLog("发送_1::" + SystemClock.currentThreadTimeMillis());
                     insert2DB(msgBody, 0, stanzaId);
                     chatTo.sendMessage(message);
-                    MyLog.showLog("发送_2::" + SystemClock.currentThreadTimeMillis());
                 }
             } catch (NotConnectedException e) {
                 MyUtils.showToast(act, "消息发送失败" + e.getMessage());
@@ -865,11 +862,6 @@ public class ChatActivity extends BaseActivity implements OnClickListener, OnIte
         username = OpenIMApp.username;
         msgMark = username + "#" + friendName;
         openIMDao = OpenIMDao.getInstance(act);
-
-        MyUtils.showToast(act, connection.toString() + "---connection");
-        MyUtils.showToast(act, connection.isAuthenticated() + "---auth");
-        MyUtils.showToast(act, connection.isSocketClosed() + "---socket_closed");
-
         if (connection != null && connection.isAuthenticated()) {
             // 获得会话管理者
             cm = ChatManager.getInstanceFor(connection);

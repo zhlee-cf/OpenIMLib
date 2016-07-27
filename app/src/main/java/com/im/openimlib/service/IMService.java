@@ -64,7 +64,6 @@ public class IMService extends Service {
     private static final int LOGIN_FIRST = 1000;
     private static final int LOGIN_SECOND = 2000;
     private static final int LOGIN_FAIL = 3000;
-//    private SharedPreferences sp;
     private String username;
     private static IMService mIMService;
 
@@ -161,12 +160,12 @@ public class IMService extends Service {
                                 if (!isServerReachable()) {
                                     loginServer();
                                     initOfflineMessages();
-                                    handler.post(new Runnable() {
-                                        @Override
-                                        public void run() {
-                                            Toast.makeText(mIMService, "亮屏登录成功", Toast.LENGTH_SHORT).show();
-                                        }
-                                    });
+//                                    handler.post(new Runnable() {
+//                                        @Override
+//                                        public void run() {
+//                                            Toast.makeText(mIMService, "亮屏登录成功", Toast.LENGTH_SHORT).show();
+//                                        }
+//                                    });
                                 } else {
                                     initOfflineMessages();
                                 }
@@ -216,12 +215,12 @@ public class IMService extends Service {
             connection.login(username, password);
             handler.sendEmptyMessage(LOGIN_FIRST);
         } catch (SmackException | IOException | XMPPException e) {
-            handler.post(new Runnable() {
-                @Override
-                public void run() {
-                    Toast.makeText(mIMService, "loginServer------" + e.getMessage(), Toast.LENGTH_SHORT).show();
-                }
-            });
+//            handler.post(new Runnable() {
+//                @Override
+//                public void run() {
+//                    Toast.makeText(mIMService, "loginServer------" + e.getMessage(), Toast.LENGTH_SHORT).show();
+//                }
+//            });
             e.printStackTrace();
         }
     }
@@ -361,12 +360,12 @@ public class IMService extends Service {
                 public void connectionClosedOnError(final Exception e) {
                     MyLog.showLog("因为错误，连接被关闭");
                     loginState = false;
-                    handler.post(new Runnable() {
-                        @Override
-                        public void run() {
-                            Toast.makeText(mIMService, e.getMessage(), Toast.LENGTH_LONG).show();
-                        }
-                    });
+//                    handler.post(new Runnable() {
+//                        @Override
+//                        public void run() {
+//                            Toast.makeText(mIMService, e.getMessage(), Toast.LENGTH_LONG).show();
+//                        }
+//                    });
                     MyLog.showLog("关闭异常信息::" + e.toString());
                     // 登录冲突
                     if (e.getMessage().contains("conflict")) {
@@ -392,12 +391,12 @@ public class IMService extends Service {
                                             } else {
                                                 // TODO
                                                 loginServer();
-                                                handler.post(new Runnable() {
-                                                    @Override
-                                                    public void run() {
-                                                        Toast.makeText(mIMService, "异常中登录", Toast.LENGTH_SHORT).show();
-                                                    }
-                                                });
+//                                                handler.post(new Runnable() {
+//                                                    @Override
+//                                                    public void run() {
+//                                                        Toast.makeText(mIMService, "异常中登录", Toast.LENGTH_SHORT).show();
+//                                                    }
+//                                                });
                                             }
                                         }
                                         timer.cancel();
@@ -405,12 +404,12 @@ public class IMService extends Service {
 
                                         if (e.getMessage().contains("Client is already logged in")) {
 
-                                            handler.post(new Runnable() {
-                                                @Override
-                                                public void run() {
-                                                    Toast.makeText(mIMService, "异常登录成功----已经登录过了", Toast.LENGTH_SHORT).show();
-                                                }
-                                            });
+//                                            handler.post(new Runnable() {
+//                                                @Override
+//                                                public void run() {
+//                                                    Toast.makeText(mIMService, "异常登录成功----已经登录过了", Toast.LENGTH_SHORT).show();
+//                                                }
+//                                            });
 
                                             handler.sendEmptyMessage(LOGIN_FIRST);
                                         }
@@ -500,51 +499,6 @@ public class IMService extends Service {
         alarmMgr.cancel(tickPendIntent);
     }
 
-//    /**
-//     * 接收程序在前台运行的广播
-//     * 收到广播后判断应用联网状态
-//     * 若链接网络 则登录
-//     * 只尝试登录一次
-//     */
-//    private void registerAppForegroundListener() {
-//        mAppForegroundReceiver = new BroadcastReceiver() {
-//            @Override
-//            public void onReceive(Context context, Intent intent) {
-//
-//                handler.post(new Runnable() {
-//                    @Override
-//                    public void run() {
-//                        Toast.makeText(mIMService, "登录状态::" + loginState, Toast.LENGTH_SHORT).show();
-//                    }
-//                });
-//
-//                if (MyNetUtils.isNetworkConnected(mIMService)) {
-//                    handler.post(new Runnable() {
-//                        @Override
-//                        public void run() {
-//                            Toast.makeText(mIMService, "应用已掉线，收到登录广播", Toast.LENGTH_SHORT).show();
-//                        }
-//                    });
-//                    // TODO
-//                    ThreadUtil.runOnBackThread(new Runnable() {
-//                        @Override
-//                        public void run() {
-//                            loginServer();
-//                            handler.post(new Runnable() {
-//                                @Override
-//                                public void run() {
-//                                    Toast.makeText(mIMService, "前台广播登录成功", Toast.LENGTH_SHORT).show();
-//                                }
-//                            });
-//                        }
-//                    });
-//                }
-//            }
-//        };
-//        IntentFilter filter = new IntentFilter(MyConstance.APP_FOREGROUND_ACTION);
-//        registerReceiver(mAppForegroundReceiver, filter);
-//    }
-
     @Override
     /**
      * START_STICKY  提高服务的优先级的 但是貌似效果不明显
@@ -563,7 +517,7 @@ public class IMService extends Service {
 
     /**
      * 获取离线消息管理者 必须在用户登录之后才可以执行
-     * 服务器现在不支持离线消息
+     * 
      */
     private void initOfflineMessages() {
         ThreadUtil.runOnBackThread(new Runnable() {
@@ -625,7 +579,7 @@ public class IMService extends Service {
         Iterator messageFilter = nodes.iterator();
         while (messageFilter.hasNext()) {
             String messageCollector = (String) messageFilter.next();
-            org.jivesoftware.smackx.offline.packet.OfflineMessageRequest.Item message = new org.jivesoftware.smackx.offline.packet.OfflineMessageRequest.Item(messageCollector);
+            OfflineMessageRequest.Item message = new OfflineMessageRequest.Item(messageCollector);
             message.setAction("view");
             request.addItem(message);
         }

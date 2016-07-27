@@ -39,7 +39,6 @@ public class ConversationListFragment extends BaseFragment {
 
     /**
      * 通过控件名称获取控件id
-     *
      * @param name
      * @return
      */
@@ -49,7 +48,6 @@ public class ConversationListFragment extends BaseFragment {
 
     /**
      * 通过layout名称获取layout的id
-     *
      * @param layout
      * @return
      */
@@ -59,12 +57,11 @@ public class ConversationListFragment extends BaseFragment {
 
     /**
      * 通过style名称获取style的id
-     *
      * @param style
      * @return
      */
-    private int getStyleByName(String style) {
-        return MResource.getIdByName(act, "style", style);
+    private int getStyleByName(String style){
+        return MResource.getIdByName(act,"style",style);
     }
 
     @Override
@@ -78,7 +75,7 @@ public class ConversationListFragment extends BaseFragment {
     @Override
     public void initData() {
         openIMDao = OpenIMDao.getInstance(act);
-        pd = new MyDialog(act, getStyleByName("CustomProgressDialog"));
+        pd = new MyDialog(act,getStyleByName("CustomProgressDialog"));
         pd.show();
         ThreadUtil.runOnBackThread(new Runnable() {
             @Override
@@ -194,7 +191,6 @@ public class ConversationListFragment extends BaseFragment {
             }
         }
     };
-
     private void showDialog(String friendNick, final String friendName) {
         AlertDialog.Builder builder = new AlertDialog.Builder(act);
         final AlertDialog dialog = builder.create();

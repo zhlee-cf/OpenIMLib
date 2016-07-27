@@ -28,11 +28,6 @@ import java.util.Date;
 
 public class XMPPConnectionUtils {
 
-    private static String sendLogPath = Environment.getExternalStorageDirectory().getAbsolutePath() + "/OpenIM/send_log.txt";
-    private static String receiveLogPath = Environment.getExternalStorageDirectory().getAbsolutePath() + "/OpenIM/receive_log.txt";
-
-    private static File sendFile = new File(sendLogPath);
-    private static File receiveFile = new File(receiveLogPath);
     private static OpenIMDao openIMDao;
 
     /**
@@ -59,7 +54,7 @@ public class XMPPConnectionUtils {
         // 获取连接对象
         final XMPPTCPConnection connection = new XMPPTCPConnection(configBuilder.build());
 
-        System.setProperty("http.keepAlive", "false");
+//        System.setProperty("http.keepAlive", "false");
 
         // 消息回执
         ProviderManager.addExtensionProvider(DeliveryReceipt.ELEMENT, DeliveryReceipt.NAMESPACE, new DeliveryReceipt.Provider());
@@ -91,48 +86,6 @@ public class XMPPConnectionUtils {
 
         // 将连接对象变成全应用变量
         OpenIMApp.connection = connection;
-
-        /**
-         * 监听创建连接后 发出的数据
-         */
-        connection.addPacketSendingListener(new StanzaListener() {
-
-            @Override
-            public void processPacket(Stanza packet) throws NotConnectedException {
-                CharSequence xml = packet.toXML();
-                if (!sendFile.getParentFile().exists()) {
-                    sendFile.getParentFile().mkdirs();
-                }
-                try {
-                    FileOutputStream fos = new FileOutputStream(sendFile, true);
-                    fos.write((new Date() + "==============" + xml.toString()).getBytes());
-                    fos.write("\n".getBytes());
-                    fos.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-                MyLog.showLog("发出的流::" + xml.toString());
-            }
-        }, null);
-
-        connection.addAsyncStanzaListener(new StanzaListener() {
-            @Override
-            public void processPacket(Stanza packet) throws NotConnectedException {
-                CharSequence xml = packet.toXML();
-                if (!receiveFile.getParentFile().exists()) {
-                    receiveFile.getParentFile().mkdirs();
-                }
-                try {
-                    FileOutputStream fos = new FileOutputStream(receiveFile, true);
-                    fos.write((new Date() + "==============" + xml.toString()).getBytes());
-                    fos.write("\n".getBytes());
-                    fos.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-                MyLog.showLog("收到的流::" + xml.toString());
-            }
-        }, null);
     }
 
     /**

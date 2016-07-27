@@ -78,14 +78,14 @@ public class XListViewFooter extends LinearLayout {
     public void setBottomMargin(int height) {
         if (height < 0)
             return;
-        LinearLayout.LayoutParams lp = (LinearLayout.LayoutParams) mContentView
+        LayoutParams lp = (LayoutParams) mContentView
                 .getLayoutParams();
         lp.bottomMargin = height;
         mContentView.setLayoutParams(lp);
     }
 
     public int getBottomMargin() {
-        LinearLayout.LayoutParams lp = (LinearLayout.LayoutParams) mContentView
+        LayoutParams lp = (LayoutParams) mContentView
                 .getLayoutParams();
         return lp.bottomMargin;
     }
@@ -110,7 +110,7 @@ public class XListViewFooter extends LinearLayout {
      * 当禁用拉加载更多隐藏底部视图
      */
     public void hide() {
-        LinearLayout.LayoutParams lp = (LinearLayout.LayoutParams) mContentView
+        LayoutParams lp = (LayoutParams) mContentView
                 .getLayoutParams();
         lp.height = 0;
         mContentView.setLayoutParams(lp);
@@ -120,7 +120,7 @@ public class XListViewFooter extends LinearLayout {
      * 显示底部视图
      */
     public void show() {
-        LinearLayout.LayoutParams lp = (LinearLayout.LayoutParams) mContentView
+        LayoutParams lp = (LayoutParams) mContentView
                 .getLayoutParams();
         lp.height = LayoutParams.WRAP_CONTENT;
         mContentView.setLayoutParams(lp);
@@ -131,7 +131,7 @@ public class XListViewFooter extends LinearLayout {
         LinearLayout moreView = (LinearLayout) LayoutInflater.from(mContext)
                 .inflate(getLayoutByName("xlistview_footer"), null);
         addView(moreView);
-        moreView.setLayoutParams(new LinearLayout.LayoutParams(
+        moreView.setLayoutParams(new LayoutParams(
                 LayoutParams.FILL_PARENT, LayoutParams.WRAP_CONTENT));
 
         mContentView = moreView.findViewById(getIdByName("xlistview_footer_content"));

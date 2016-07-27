@@ -73,19 +73,12 @@ public class BaseActivity extends FragmentActivity {
                 } else {
                     boolean isReachable = isServerReachable();
                     MyLog.showLog("isReachable::" + isReachable);
-                    MyUtils.showToast(act, "应用可见,ping结果::" + isReachable);
+//                    MyUtils.showToast(act, "应用可见,ping结果::" + isReachable);
                     if (!isReachable) {
                         if (isFocus) {
                             sendBroadcast(new Intent(MyConstance.ACT_ONRESUME_ACTION));
                         }
                     }
-//                    if (!OpenIMApp.isActive) {
-//                        OpenIMApp.isActive = true;
-//                        MyLog.showLog("程序处于前台");
-//                        if (isReachable) {
-//                            sendBroadcast(new Intent(MyConstance.INIT_OFFLINE_MESSAGE_ACTION));
-//                        }
-//                    }
                 }
             }
         });
@@ -110,20 +103,6 @@ public class BaseActivity extends FragmentActivity {
         }
         super.onDestroy();
     }
-
-//    @Override
-//    protected void onStop() {
-//        super.onStop();
-//        ThreadUtil.runOnBackThread(new Runnable() {
-//            @Override
-//            public void run() {
-//                if (!isAppOnForeground()) {
-//                    OpenIMApp.isActive = false;
-//                    MyLog.showLog("程序处于后台");
-//                }
-//            }
-//        });
-//    }
 
     /**
      * 程序是否在前台运行

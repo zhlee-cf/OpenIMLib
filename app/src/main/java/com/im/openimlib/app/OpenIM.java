@@ -17,7 +17,7 @@ public class OpenIM {
      * @param ctx
      */
     public static void init(Context ctx, String username, String password) {
-        if (!MyUtils.isServiceRunning(ctx, "IMService")) {
+        if (!MyUtils.isServiceRunning(ctx, "com.im.openimlib.service.IMService")) {
             Intent service = new Intent(ctx, IMService.class);
             service.putExtra("username", username);
             service.putExtra("password", MyBase64Utils.encodeToString(password));

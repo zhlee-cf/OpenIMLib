@@ -17,7 +17,7 @@ public class TickAlarmReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
         MyLog.showLog("OpenIM收到Alarm广播");
-        boolean isIMServiceRunning = MyUtils.isServiceRunning(context, "IMService");
+        boolean isIMServiceRunning = MyUtils.isServiceRunning(context, "com.im.openimlib.service.IMService");
         if (!isIMServiceRunning) {
             context.startService(new Intent(context, IMService.class));
         }
