@@ -15,6 +15,7 @@ import android.os.Environment;
 import android.os.Handler;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ImageButton;
@@ -132,17 +133,6 @@ public class BaiduMapActivity extends Activity implements View.OnClickListener {
     private int getLayoutByName(String layout) {
         return MResource.getIdByName(act, "layout", layout);
     }
-
-    /**
-     * 通过图片名称找到图片id
-     *
-     * @param mipmap
-     * @return
-     */
-    private int getMipmapByName(String mipmap) {
-        return MResource.getIdByName(act, "mipmap", mipmap);
-    }
-
     /**
      * 通过drawable名称找到drawable
      *
@@ -242,9 +232,10 @@ public class BaiduMapActivity extends Activity implements View.OnClickListener {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        getWindow().requestFeature(Window.FEATURE_NO_TITLE);
         SDKInitializer.initialize(getApplicationContext());
         act = this;
-        setContentView(getLayoutByName("activity_baidumap"));
+        setContentView(getLayoutByName("openim_activity_baidumap"));
         if (MyNetUtils.isNetworkConnected(act)) {
             init();
         } else {
@@ -267,7 +258,7 @@ public class BaiduMapActivity extends Activity implements View.OnClickListener {
         isFirstLoad = true;
 
         datas = new ArrayList<>();
-        adatper = new BaiduMapAdapter(BaiduMapActivity.this, datas, getLayoutByName("adapter_baidumap_item"));
+        adatper = new BaiduMapAdapter(BaiduMapActivity.this, datas, getLayoutByName("openim_list_item_baidumap"));
         listView.setAdapter(adatper);
         Intent intent = getIntent();
         double latitude = intent.getDoubleExtra(LATITUDE, 0);
@@ -475,7 +466,7 @@ public class BaiduMapActivity extends Activity implements View.OnClickListener {
     private void showMap(double latitude, double longitude, String address) {
         send.setVisibility(View.GONE);
         LatLng llA = new LatLng(latitude, longitude);
-        OverlayOptions ooA = new MarkerOptions().position(llA).icon(BitmapDescriptorFactory.fromResource(getMipmapByName("icon_yourself_lication"))).zIndex(4).draggable(true);
+        OverlayOptions ooA = new MarkerOptions().position(llA).icon(BitmapDescriptorFactory.fromResource(getDrawableByName("openim_icon_yourself_lication"))).zIndex(4).draggable(true);
         mBaiduMap.addOverlay(ooA);
         MapStatusUpdate u = MapStatusUpdateFactory.newLatLngZoom(llA, 17.0f);
         mBaiduMap.animateMapStatus(u);
@@ -569,7 +560,7 @@ public class BaiduMapActivity extends Activity implements View.OnClickListener {
             converter.coord(ll);// 设置源坐标数据
             converter.from(CoordinateConverter.CoordType.COMMON);// 设置源坐标类型
             LatLng convertLatLng = converter.convert();
-            OverlayOptions myselfOOA = new MarkerOptions().position(convertLatLng).icon(BitmapDescriptorFactory.fromResource(getMipmapByName("icon_yourself_lication"))).zIndex(4).draggable(true);
+            OverlayOptions myselfOOA = new MarkerOptions().position(convertLatLng).icon(BitmapDescriptorFactory.fromResource(getDrawableByName("openim_icon_yourself_lication"))).zIndex(4).draggable(true);
             mBaiduMap.addOverlay(myselfOOA);
             myselfU = MapStatusUpdateFactory.newLatLngZoom(convertLatLng, 17.0f);
             mBaiduMap.animateMapStatus(myselfU);

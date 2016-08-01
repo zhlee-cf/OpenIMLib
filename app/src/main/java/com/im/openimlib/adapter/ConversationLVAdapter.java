@@ -66,15 +66,6 @@ public class ConversationLVAdapter extends BaseAdapter {
     }
 
     /**
-     * 通过图片名称找到图片id
-     * @param mipmap
-     * @return
-     */
-    private int getMipmapByName(String mipmap){
-        return MResource.getIdByName(ctx,"mipmap",mipmap);
-    }
-
-    /**
      * 通过drawable名称找到drawable
      * @param drawable
      * @return
@@ -104,7 +95,7 @@ public class ConversationLVAdapter extends BaseAdapter {
         ViewHolder vh;
         if (convertView == null) {
             vh = new ViewHolder();
-            view = View.inflate(ctx, getLayoutByName("list_item_conversation"), null);
+            view = View.inflate(ctx, getLayoutByName("openim_list_item_conversation"), null);
             vh.item_left = (RelativeLayout) view.findViewById(getIdByName("item_left"));
             vh.iv_icon = (CircularImage) view.findViewById(getIdByName("iv_icon"));
             vh.iv_icon.setTag(position);
@@ -132,7 +123,7 @@ public class ConversationLVAdapter extends BaseAdapter {
         if (msgAvatar != null){
             bitmapUtils.display(vh.iv_icon,msgAvatar);
         } else {
-            vh.iv_icon.setImageResource(getMipmapByName("ic_launcher"));
+            vh.iv_icon.setImageResource(getDrawableByName("ic_launcher"));
         }
         if ("-1".equals(msgReceipt)) {
             vh.tv_msg.setText("【发送失败】");

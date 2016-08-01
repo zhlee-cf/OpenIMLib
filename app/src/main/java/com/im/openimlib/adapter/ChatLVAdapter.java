@@ -81,15 +81,6 @@ public class ChatLVAdapter extends BaseAdapter {
     }
 
     /**
-     * 通过图片名称找到图片id
-     * @param mipmap
-     * @return
-     */
-    private int getMipmapByName(String mipmap){
-        return MResource.getIdByName(act,"mipmap",mipmap);
-    }
-
-    /**
      * 通过drawable名称找到drawable
      * @param drawable
      * @return
@@ -121,7 +112,7 @@ public class ChatLVAdapter extends BaseAdapter {
         View view;
         ViewHolder vh;
         if (convertView == null) {
-            view = View.inflate(act, getLayoutByName("list_item_chat_detail"), null);
+            view = View.inflate(act, getLayoutByName("openim_list_item_chat_detail"), null);
             vh = new ViewHolder();
             TextView tv_date = (TextView) view.findViewById(getIdByName("tv_date"));
             LinearLayout ll_receive = (LinearLayout) view.findViewById(getIdByName("ll_receive"));
@@ -244,7 +235,7 @@ public class ChatLVAdapter extends BaseAdapter {
             if (avatarUrl != null) {
                 myBitmapUtils.display(vh.receiveAvatar, avatarUrl);
             } else {
-                vh.receiveAvatar.setImageResource(getMipmapByName("ic_launcher"));
+                vh.receiveAvatar.setImageResource(getDrawableByName("ic_launcher"));
             }
 
             if (msgType == 1) { // 1表示图片
@@ -274,7 +265,7 @@ public class ChatLVAdapter extends BaseAdapter {
                 vh.receiveAudio.setVisibility(View.VISIBLE);
                 vh.receiveImage.setVisibility(View.GONE);
                 vh.receiveLocation.setVisibility(View.GONE);
-                vh.receiveAudio.setImageResource(getDrawableByName("voice_from_icon"));
+                vh.receiveAudio.setImageResource(getDrawableByName("openim_voice_from_icon"));
 
                 final AnimationDrawable an = (AnimationDrawable) vh.receiveAudio.getDrawable();
                 // 设置动画初始状态
@@ -326,7 +317,7 @@ public class ChatLVAdapter extends BaseAdapter {
             if (userAvatar != null) {
                 myBitmapUtils.display(vh.sendAvatar, userAvatar);
             } else {
-                vh.sendAvatar.setImageResource(getMipmapByName("ic_launcher"));
+                vh.sendAvatar.setImageResource(getDrawableByName("ic_launcher"));
             }
 
             if (msgType == 1) { // 1表示图片
@@ -354,7 +345,7 @@ public class ChatLVAdapter extends BaseAdapter {
                 vh.sendAudio.setVisibility(View.VISIBLE);
                 vh.sendImage.setVisibility(View.GONE);
                 vh.sendLocation.setVisibility(View.GONE);
-                vh.sendAudio.setImageResource(getDrawableByName("voice_to_icon"));
+                vh.sendAudio.setImageResource(getDrawableByName("openim_voice_to_icon"));
 
                 final AnimationDrawable an = (AnimationDrawable) vh.sendAudio.getDrawable();
                 // 设置动画初始状态

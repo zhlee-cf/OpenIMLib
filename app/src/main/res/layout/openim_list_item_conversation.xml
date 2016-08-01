@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal">
+
+    <RelativeLayout
+        android:id="@+id/item_left"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/openim_contact_bg_selector"
+        android:paddingBottom="@dimen/dimen_5dp"
+        android:paddingLeft="@dimen/dimen_10dp"
+        android:paddingRight="@dimen/dimen_10dp"
+        android:paddingTop="@dimen/dimen_5dp">
+
+        <com.im.openimlib.view.CircularImage
+            android:id="@+id/iv_icon"
+            android:layout_width="@dimen/dimen_50dp"
+            android:layout_height="@dimen/dimen_50dp"
+            android:layout_marginRight="@dimen/dimen_5dp"
+            android:paddingTop="@dimen/dimen_5dp"
+            android:src="@drawable/ic_launcher" />
+
+        <TextView
+            android:id="@+id/tv_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/iv_icon"
+            android:paddingTop="@dimen/dimen_5dp"
+            android:text="@string/openim_string_title"
+            android:textColor="@android:color/black"
+            android:textSize="@dimen/font_16sp" />
+
+        <com.rockerhieu.emojicon.EmojiconTextView
+            android:id="@+id/tv_msg"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@id/iv_icon"
+            android:layout_alignLeft="@id/tv_title"
+            android:ellipsize="end"
+            android:singleLine="true"
+            android:textColor="@color/openim_color_grey" />
+
+        <TextView
+            android:id="@+id/tv_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_alignTop="@id/tv_title"
+            android:textColor="@color/openim_color_grey" />
+
+        <TextView
+            android:id="@+id/tv_unread_num"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_toLeftOf="@+id/tv_title"
+            android:background="@drawable/openim_unread_msg_bg"
+            android:gravity="center"
+            android:text="2"
+            android:textColor="@android:color/white"
+            android:textSize="@dimen/font_10sp"
+            android:visibility="gone" />
+    </RelativeLayout>
+</LinearLayout>

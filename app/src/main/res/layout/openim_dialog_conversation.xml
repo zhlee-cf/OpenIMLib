@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/white"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/tv_nick"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/dimen_20dp"
+        android:text="@string/openim_string_friend_name"
+        android:textSize="@dimen/font_22sp"
+        android:textStyle="bold"
+        android:textColor="@android:color/holo_blue_light"/>
+    <View
+        android:layout_width="match_parent"
+        android:background="@android:color/holo_blue_light"
+        android:layout_height="@dimen/dimen_3dp"/>
+    <TextView
+        android:id="@+id/tv_top"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="@dimen/dimen_20dp"
+        android:textSize="@dimen/font_20sp"
+        android:textColor="@android:color/black"
+        android:text="@string/openim_string_conversation_to_top"
+        android:paddingTop="@dimen/dimen_15dp"
+        android:paddingBottom="@dimen/dimen_15dp"/>
+    <View
+        android:layout_width="match_parent"
+        android:background="@android:color/darker_gray"
+        android:layout_height="@dimen/dimen_1dp"/>
+    <TextView
+        android:id="@+id/tv_delete"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="@dimen/dimen_20dp"
+        android:textSize="@dimen/font_20sp"
+        android:textColor="@android:color/black"
+        android:text="@string/openim_string_conversation_delete"
+        android:paddingTop="@dimen/dimen_15dp"
+        android:paddingBottom="@dimen/dimen_15dp"/>
+</LinearLayout>

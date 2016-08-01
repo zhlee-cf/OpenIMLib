@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@android:color/transparent"
+    android:orientation="vertical"
+    android:padding="@dimen/dimen_10dp">
+
+    <TextView
+        android:id="@+id/tv_date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:textColor="@color/openim_color_gray"
+        android:textSize="@dimen/font_12sp" />
+
+    <LinearLayout
+        android:id="@+id/ll_receive"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@id/tv_date"
+        android:background="@android:color/transparent"
+        android:orientation="horizontal"
+        android:visibility="visible">
+
+        <com.im.openimlib.view.CircularImage
+            android:id="@+id/chatfrom_icon"
+            android:layout_width="@dimen/dimen_40dp"
+            android:layout_height="@dimen/dimen_40dp" />
+
+        <com.rockerhieu.emojicon.EmojiconTextView
+            android:id="@+id/tv_receive_body"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/openim_chatfrom_bg"
+            android:gravity="bottom"
+            android:maxWidth="@dimen/dimen_230dp"
+            android:textColor="@color/openim_color_gray"
+            android:textSize="@dimen/font_14sp" />
+
+        <ImageView
+            android:id="@+id/iv_receive_image"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/openim_chatfrom_bg"
+            android:gravity="center_vertical"
+            android:scaleType="fitXY"
+            android:visibility="gone" />
+
+        <ImageView
+            android:id="@+id/iv_receive_audio"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/openim_chatfrom_bg"
+            android:gravity="center_vertical"
+            android:scaleType="fitXY"
+            android:src="@drawable/openim_chatfrom_voice_playing"
+            android:visibility="gone" />
+
+        <ImageView
+            android:id="@+id/iv_receive_location"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/openim_chatfrom_bg"
+            android:gravity="center_vertical"
+            android:scaleType="fitXY"
+            android:visibility="gone" />
+    </LinearLayout>
+
+    <RelativeLayout
+        android:id="@+id/rl_send"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@android:color/transparent">
+
+        <com.im.openimlib.view.CircularImage
+            android:id="@+id/chatto_icon"
+            android:layout_width="@dimen/dimen_40dp"
+            android:layout_height="@dimen/dimen_40dp"
+            android:layout_alignParentRight="true" />
+
+        <LinearLayout
+            android:id="@+id/rl_send_body"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toLeftOf="@id/chatto_icon">
+
+            <com.rockerhieu.emojicon.EmojiconTextView
+                android:id="@+id/tv_send_body"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/openim_chatto_bg"
+                android:gravity="center_vertical"
+                android:maxWidth="@dimen/dimen_230dp"
+                android:textColor="@color/openim_color_gray"
+                android:textSize="@dimen/font_14sp" />
+            <!-- android:scaleType="fitXY" 气泡包裹图片 但是会产生形变 -->
+
+            <ImageView
+                android:id="@+id/iv_send_image"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/openim_chatto_bg"
+                android:gravity="center_vertical"
+                android:scaleType="fitXY"
+                android:visibility="gone" />
+
+            <ImageView
+                android:id="@+id/iv_send_audio"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/openim_chatto_bg"
+                android:gravity="center_vertical"
+                android:scaleType="fitXY"
+                android:src="@drawable/openim_chatto_voice_playing"
+                android:visibility="gone" />
+
+            <ImageView
+                android:id="@+id/iv_send_location"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/openim_chatto_bg"
+                android:gravity="center_vertical"
+                android:scaleType="fitXY"
+                android:visibility="gone" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/tv_receipt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@id/rl_send_body"
+            android:layout_marginRight="@dimen/dimen_5dp"
+            android:layout_toLeftOf="@id/rl_send_body"
+            android:text="@string/openim_string_send_fail"
+            android:textSize="@dimen/font_10sp" />
+
+        <ImageView
+            android:id="@+id/iv_receipt"
+            android:layout_width="@dimen/dimen_20dp"
+            android:layout_height="@dimen/dimen_20dp"
+            android:layout_alignBottom="@id/rl_send_body"
+            android:layout_marginRight="@dimen/dimen_5dp"
+            android:layout_toLeftOf="@id/rl_send_body"
+            android:background="@drawable/openim_title_loading"
+            android:visibility="gone" />
+    </RelativeLayout>
+</LinearLayout>

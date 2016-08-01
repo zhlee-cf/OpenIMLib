@@ -51,11 +51,11 @@ public class MyChatMessageListener implements ChatMessageListener {
     /**
      * 通过图片名称找到图片id
      *
-     * @param mipmap
+     * @param drawable
      * @return
      */
-    private int getMipmapByName(String mipmap) {
-        return MResource.getIdByName(ctx, "mipmap", mipmap);
+    private int getDrawableByName(String drawable) {
+        return MResource.getIdByName(ctx, "drawable", drawable);
     }
 
     @Override
@@ -181,7 +181,7 @@ public class MyChatMessageListener implements ChatMessageListener {
                 .setContentText(messageBody)
                 .setContentIntent(contentIntent)
                 .setTicker(tickerText)
-                .setSmallIcon(getMipmapByName("ic_launcher"))
+                .setSmallIcon(getDrawableByName("ic_launcher"))
                 .build();
         // 设置默认声音
         notification.defaults |= Notification.DEFAULT_SOUND;

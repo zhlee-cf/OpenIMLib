@@ -41,7 +41,7 @@ public class MyDialog extends Dialog {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(getLayoutByName("dialog_loading"));
+		setContentView(getLayoutByName("openim_dialog_loading"));
 
 		final ImageView imageView = (ImageView) findViewById(getIdByName("loadingImageView"));
 		Looper.myQueue().addIdleHandler(new IdleHandler() {

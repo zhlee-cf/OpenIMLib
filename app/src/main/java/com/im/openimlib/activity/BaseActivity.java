@@ -12,7 +12,6 @@ import android.support.v4.app.FragmentActivity;
 import com.im.openimlib.Utils.MyConstance;
 import com.im.openimlib.Utils.MyLog;
 import com.im.openimlib.Utils.MyNetUtils;
-import com.im.openimlib.Utils.MyUtils;
 import com.im.openimlib.Utils.ThreadUtil;
 import com.im.openimlib.app.OpenIMApp;
 

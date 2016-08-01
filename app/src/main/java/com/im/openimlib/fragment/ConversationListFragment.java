@@ -67,8 +67,10 @@ public class ConversationListFragment extends BaseFragment {
     @Override
     public View initView() {
         act = getActivity();
-        View view = View.inflate(act, getLayoutByName("fragment_conversation_list"), null);
+        View view = View.inflate(act, getLayoutByName("openim_fragment_conversation_list"), null);
         mListView = (ListView) view.findViewById(getIdByName("conversation_list"));
+        // TODO
+//        MyLog.showLog("openim_string::" + MResource.getIdByName(getContext(),"openim_strings","abc"));
         return view;
     }
 
@@ -194,7 +196,7 @@ public class ConversationListFragment extends BaseFragment {
     private void showDialog(String friendNick, final String friendName) {
         AlertDialog.Builder builder = new AlertDialog.Builder(act);
         final AlertDialog dialog = builder.create();
-        View view = View.inflate(act, getLayoutByName("dialog_conversation"), null);
+        View view = View.inflate(act, getLayoutByName("openim_dialog_conversation"), null);
         TextView tvNick = (TextView) view.findViewById(getIdByName("tv_nick"));
         TextView tvTop = (TextView) view.findViewById(getIdByName("tv_top"));
         TextView tvDelete = (TextView) view.findViewById(getIdByName("tv_delete"));

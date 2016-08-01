@@ -13,10 +13,6 @@ public class OpenIMApp extends LitePalApplication {
      * 在登录注册界面创建的连接对象 登录界面赋值
      */
     public static XMPPTCPConnection connection;
-//    /**
-//     * 应用是否在前台
-//     */
-//    public static boolean isActive;
     /**
      * 登录后存储用户名
      */

@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/adapter_baidumap_location_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/dimen_10dp"
+        android:layout_marginTop="@dimen/dimen_10dp"
+        android:text="@string/openim_string_location_map"
+        android:textColor="#3f3f3f"
+        android:textSize="@dimen/font_14sp" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/adapter_baidumap_location_name"
+        android:layout_marginTop="@dimen/dimen_6dp">
+
+        <TextView
+            android:id="@+id/adapter_baidumap_location_address"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/dimen_6dp"
+            android:layout_marginLeft="@dimen/dimen_10dp"
+            android:textColor="@color/openim_color_gray"
+            android:textSize="@dimen/font_14sp" />
+
+        <ImageView
+            android:id="@+id/adapter_baidumap_location_checked"
+            android:layout_width="@dimen/dimen_18dp"
+            android:layout_height="@dimen/dimen_12dp"
+            android:layout_alignParentRight="true"
+            android:layout_marginBottom="@dimen/dimen_6dp"
+            android:layout_marginRight="@dimen/dimen_16dp"
+            android:background="@drawable/openim_icon_checked"
+            android:visibility="visible" />
+    </RelativeLayout>
+</RelativeLayout>

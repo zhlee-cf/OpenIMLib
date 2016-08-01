@@ -129,7 +129,7 @@ public class XListViewFooter extends LinearLayout {
     private void initView(Context context) {
         mContext = context;
         LinearLayout moreView = (LinearLayout) LayoutInflater.from(mContext)
-                .inflate(getLayoutByName("xlistview_footer"), null);
+                .inflate(getLayoutByName("openim_xlistview_footer"), null);
         addView(moreView);
         moreView.setLayoutParams(new LayoutParams(
                 LayoutParams.FILL_PARENT, LayoutParams.WRAP_CONTENT));

@@ -3160,12 +3160,12 @@
         "source": "G:\\Project\\OpenIMLib\\emojicon\\build\\intermediates\\bundles\\debug\\res\\drawable-nodpi-v4\\emoji_1f3e3.png"
     },
     {
-        "merged": "G:\\Project\\OpenIMLib\\emojicon\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-nodpi-v4\\emoji_26a1.png",
-        "source": "G:\\Project\\OpenIMLib\\emojicon\\build\\intermediates\\bundles\\debug\\res\\drawable-nodpi-v4\\emoji_26a1.png"
-    },
-    {
         "merged": "G:\\Project\\OpenIMLib\\emojicon\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-nodpi-v4\\emoji_1f63e.png",
         "source": "G:\\Project\\OpenIMLib\\emojicon\\build\\intermediates\\bundles\\debug\\res\\drawable-nodpi-v4\\emoji_1f63e.png"
+    },
+    {
+        "merged": "G:\\Project\\OpenIMLib\\emojicon\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-nodpi-v4\\emoji_26a1.png",
+        "source": "G:\\Project\\OpenIMLib\\emojicon\\build\\intermediates\\bundles\\debug\\res\\drawable-nodpi-v4\\emoji_26a1.png"
     },
     {
         "merged": "G:\\Project\\OpenIMLib\\emojicon\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-nodpi-v4\\emoji_1f1fa_1f1f8.png",

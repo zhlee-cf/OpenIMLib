@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="openim_color_gray">#AFAFAF</color>
+    <color name="openim_color_org">#FF5722</color>
+    <color name="openim_color_grey">#808080</color>
+    <color name="openim_color_chat_bottom">#F5F6F7</color>
+    <color name="openim_color_login_green_nor">#2BAF2B</color>
+    <color name="openim_color_login_green_pressed">#50CA65</color>
+    <color name="openim_color_login_unable">#A1A1A1</color>
+    <color name="openim_color_list_item_pressed">#86B800</color>
+</resources>

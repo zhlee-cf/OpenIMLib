@@ -31,6 +31,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
@@ -149,7 +150,8 @@ public class ChatActivity extends BaseActivity implements OnClickListener, OnIte
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(getLayoutByName("activity_chat"));
+        getWindow().requestFeature(Window.FEATURE_NO_TITLE);
+        setContentView(getLayoutByName("openim_activity_chat"));
         // 初始化控件
         initView();
         // 初始化
@@ -217,11 +219,11 @@ public class ChatActivity extends BaseActivity implements OnClickListener, OnIte
 
     /**
      * 通过图片名称找到图片id
-     * @param mipmap
+     * @param drawable
      * @return
      */
-    private int getMipmapByName(String mipmap){
-        return MResource.getIdByName(getApplicationContext(),"mipmap",mipmap);
+    private int getDrawableByName(String drawable){
+        return MResource.getIdByName(getApplicationContext(),"drawable",drawable);
     }
     /**
      * 查询数据库 初始化聊天数据 收到的消息先存到数据 发出的消息发出后存到数据库 显示界面直接跟数据库关联 数据库改变 listview改变
@@ -416,7 +418,7 @@ public class ChatActivity extends BaseActivity implements OnClickListener, OnIte
          */
         public View getView(int position, View convertView, ViewGroup parent) {
             if (convertView == null) {
-                convertView = View.inflate(act, getLayoutByName("grid_item"), null);
+                convertView = View.inflate(act, getLayoutByName("openim_grid_item_more"), null);
             }
             ImageView icon = (ImageView) convertView.findViewById(getIdByName("iv_grid_item"));
             TextView name = (TextView) convertView.findViewById(getIdByName("tv_name_grid_item"));
@@ -433,7 +435,7 @@ public class ChatActivity extends BaseActivity implements OnClickListener, OnIte
      * 初始化
      */
     private void initPopupWindow() {
-        View view = View.inflate(act, getLayoutByName("pop_item_chat_detail"), null);
+        View view = View.inflate(act, getLayoutByName("openim_pop_item_chat_detail"), null);
         popupWindow = new PopupWindow(view, MyUtils.dip2px(act, 100), MyUtils.dip2px(act, 50));
         copyTv = (TextView) view.findViewById(getIdByName("pop_copy_tv"));
         deleteTv = (TextView) view.findViewById(getIdByName("pop_delete_tv"));
@@ -835,7 +837,7 @@ public class ChatActivity extends BaseActivity implements OnClickListener, OnIte
     @SuppressLint("NewApi")
     private void init() {
         act = this;
-        iconIds = new int[]{getMipmapByName("options_camera"), getMipmapByName("options_picture"), getMipmapByName("options_location")};
+        iconIds = new int[]{getDrawableByName("openim_options_camera"), getDrawableByName("openim_options_picture"), getDrawableByName("openim_options_location")};
         notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
         connection = OpenIMApp.connection;
         mListView.setPullLoadEnable(false);// 设置让它上拉，FALSE为不让上拉，便不加载更多数据
@@ -1074,30 +1076,30 @@ public class ChatActivity extends BaseActivity implements OnClickListener, OnIte
         switch ((int) signalEMA) {
             case 0:
             case 1:
-                volume.setImageResource(getMipmapByName("amp1"));
+                volume.setImageResource(getDrawableByName("openim_amp1"));
                 break;
             case 2:
             case 3:
-                volume.setImageResource(getMipmapByName("amp2"));
+                volume.setImageResource(getDrawableByName("openim_amp2"));
                 break;
             case 4:
             case 5:
-                volume.setImageResource(getMipmapByName("amp3"));
+                volume.setImageResource(getDrawableByName("openim_amp3"));
                 break;
             case 6:
             case 7:
-                volume.setImageResource(getMipmapByName("amp4"));
+                volume.setImageResource(getDrawableByName("openim_amp4"));
                 break;
             case 8:
             case 9:
-                volume.setImageResource(getMipmapByName("amp5"));
+                volume.setImageResource(getDrawableByName("openim_amp5"));
                 break;
             case 10:
             case 11:
-                volume.setImageResource(getMipmapByName("amp6"));
+                volume.setImageResource(getDrawableByName("openim_amp6"));
                 break;
             default:
-                volume.setImageResource(getMipmapByName("amp7"));
+                volume.setImageResource(getDrawableByName("openim_amp7"));
                 break;
         }
     }

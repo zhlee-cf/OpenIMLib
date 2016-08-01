@@ -81,7 +81,7 @@ public class XListViewHeader extends LinearLayout {
 				LayoutParams.FILL_PARENT, 0);
 		// 时间TextView
 		mContainer = (LinearLayout) LayoutInflater.from(context).inflate(
-				getLayoutByName("xlistview_header"), null);
+				getLayoutByName("openim_xlistview_header"), null);
 		addView(mContainer, lp);
 		setGravity(Gravity.BOTTOM);
 		// 找到头部页面里的控件

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">OpenIMJar</string>
+    <!-- 下拉刷新，上拉加载更多 -->
+    <string name="xlistview_header_hint_normal">下拉刷新</string>
+    <string name="xlistview_header_hint_ready">松开刷新数据</string>
+    <string name="xlistview_header_hint_loading">正在加载...</string>
+    <string name="xlistview_header_last_time">上次更新时间：</string>
+    <string name="xlistview_footer_hint_normal">查看更多</string>
+    <string name="xlistview_footer_hint_ready">松开载入更多</string>
+
+    <string name="openim_string_location">位置</string>
+    <string name="openim_string_send">发 送</string>
+    <string name="openim_string_refresh">正在刷新......</string>
+    <string name="openim_string_my_friends">我的好友</string>
+    <string name="openim_string_chat">聊天</string>
+    <string name="openim_string_press_to_say">按住说话</string>
+    <string name="openim_string_location_map">[位置]</string>
+    <string name="openim_string_conversation_list">会话列表</string>
+    <string name="openim_string_friend_name">好友名称</string>
+    <string name="openim_string_conversation_to_top">置顶该会话</string>
+    <string name="openim_string_conversation_delete">从会话列表中移除</string>
+    <string name="openim_string_loading">努力加载中...</string>
+    <string name="openim_string_send_fail">发送失败</string>
+    <string name="openim_string_title">标题</string>
+    <string name="openim_string_copy">复制</string>
+    <string name="openim_string_delete">删除</string>
+    <string name="openim_string_cancel">取消</string>
+    <string name="openim_string_too_short">时间太短</string>
+</resources>

@@ -17,7 +17,7 @@ public class ShowImageActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(getLayoutByName("activity_show_image"));
+        setContentView(getLayoutByName("openim_activity_show_image"));
         initView();
     }
 
